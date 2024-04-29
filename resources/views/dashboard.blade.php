@@ -4,7 +4,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
+    {{-- Vite to include my scss. --}}
+    @vite(['resources/scss/app.scss'])
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -25,7 +26,9 @@
                             <div class="categories-list">
                                 <ul>
                                     @foreach($categories as $category)
-                                        <li><a href="/categories/{{ $category->name }}">{{ $category->name }}</a></li>
+                                        <li class="category-item">
+                                            <a href="/categories/{{ $category->name }}">{{ $category->name }}</a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>

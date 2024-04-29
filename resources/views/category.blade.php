@@ -11,8 +11,8 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-lg font-semibold">{{ __("Welcome back!") }}</h3>
-                            <p class="text-sm text-gray-600">{{ __("You're logged in as") }} <span class="font-semibold">{{ Auth::user()->name }}</span>.</p>
+                            <h3 class="text-lg font-semibold">{{ __("Category name") }}</h3>
+                            {{-- <p class="text-sm text-gray-600">{{ __("You're logged in as") }} <span class="font-semibold">{{ Auth::user()->name }}</span>.</p> --}}
                         </div>
                         {{-- Check if user is admin. --}}
                         @if (Auth::user()->is_admin)
@@ -20,15 +20,15 @@
                         @endif
                     </div>
                     <div class="border-t border-gray-200 mt-6 pt-6">
-                        <h4 class="text-lg font-semibold mb-4">Categories</h4>
-                            <!-- Categories list goes here -->
+                            <!-- Topic list goes here -->
                             <div class="categories-list">
                                 <ul>
-                                    @foreach($categories as $category)
+                                    {{-- @foreach($categories as $category)
                                         <li><a href="/categories/{{ $category->name }}">{{ $category->name }}</a></li>
-                                    @endforeach
+                                    @endforeach --}}
                                 </ul>
                             </div>
+                            <button style="cursor:pointer; float:right; margin-bottom:4px; border:2px solid #0d6efd; border-radius:6px; padding:4px; font-weight:bold;" type="submit" class="btn btn-primary">Create Topic</button>
                     </div>
                 </div>
             </div>
