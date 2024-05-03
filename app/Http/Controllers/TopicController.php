@@ -1,16 +1,19 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\User;
-use App\Topic;
-use App\Category;
-use App\Post;
+use App\Models\User;
+use App\Models\Topic;
+use App\Models\Category;
+use App\Models\Post;
 class TopicController extends Controller
 {
     public function create()
     {
         $categories = Category::all();
-        return view('topic.create', ['categories' => $categories]);
+        return view('topic.create', [
+            'categories' => $categories,
+            
+        ]);
     }
     public function save()
     {
