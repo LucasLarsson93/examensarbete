@@ -26,9 +26,11 @@
                             <div class="categories-list">
                                 <ul>
                                     @foreach($categories as $category)
+                                    <a href="/categories/{{ $category->name }}">
                                         <li class="category-item">
-                                            <a href="/categories/{{ $category->name }}">{{ $category->name }}</a>
+                                            {{ $category->name }}
                                         </li>
+                                    </a>
                                     @endforeach
                                 </ul>
                             </div>

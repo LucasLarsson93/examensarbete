@@ -19,24 +19,10 @@
                             <a href="#" class="text-sm text-blue-500 hover:underline">{{ __("Admin Dashboard") }}</a>
                         @endif
                     </div>
-                    <div class="border-t border-gray-200 mt-6 pt-6">
-                            <!-- Topic list goes here -->
-                            @if ($topics->isEmpty())
-                            <p>No topics found for this category.</p>
-                        @else
-                        <div class="categories-list">
-                            <ul>
-                                @foreach ($topics as $topic)
-                                    <a href="/categories/{{ $name }}/{{ $topic->id }}">
-                                        <li class="category-item"><strong>{{ $topic->title }} </strong><!-- Display the author and the date of the post --> <span style="float:right;">{{ $topic->created_at }}</span></li>
-                                    </a>
-                                    <!-- Display other topic details as needed -->
-                                @endforeach
-                            </ul>
-                        </div>
-                            {{ $topics->links() }} <!-- Pagination links -->
-                        @endif
-                    </div>
+                    <!-- Topic content goes here. -->
+
+
+                    <!-- Posts related to the topic goes here -->
                 </div>
             </div>
         </div>
