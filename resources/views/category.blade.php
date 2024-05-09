@@ -12,7 +12,11 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <button style="cursor:pointer; margin-top:4px; float:right; margin-bottom:4px; border:2px solid #0d6efd; border-radius:6px; padding:4px; font-weight:bold;" type="submit" class="btn btn-primary">Create Topic</button>
+                            {{-- Link to create topic view. --}}
+                            <?php 
+                            $categoryName = $name;
+                            ?>
+                            <a class="btn btn-primary" href="{{ route('topics.create', ['categoryName' => $categoryName]) }}">Create Topic</a>
                         </div>
                         {{-- Check if user is admin. --}}
                         @if (Auth::user()->is_admin)
@@ -20,6 +24,12 @@
                         @endif
                     </div>
                     <div class="border-t border-gray-200 mt-6 pt-6">
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                               <p class="alert-text">{{ session('success') }}</p>
+                            </div>
+                        @endif
                             <!-- Topic list goes here -->
                             @if ($topics->isEmpty())
                             <p>No topics found for this category.</p>
@@ -27,7 +37,7 @@
                         <div class="categories-list">
                             <ul>
                                 @foreach ($topics as $topic)
-                                    <a href="/categories/{{ $name }}/{{ $topic->id }}">
+                                    <a href="/categories/{{ $name }}/topics/{{ $topic->id }}">
                                         <li class="category-item"><strong>{{ $topic->title }} </strong><!-- Display the author and the date of the post --> <span style="float:right;">{{ $topic->created_at }}</span></li>
                                     </a>
                                     <!-- Display other topic details as needed -->
@@ -36,7 +46,7 @@
                         </div>
                             {{ $topics->links() }} <!-- Pagination links -->
                         @endif
-                    </div>
+                    </>
                 </div>
             </div>
         </div>

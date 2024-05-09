@@ -11,6 +11,7 @@ class CategoryController extends Controller
         $category = Category::where('name', $name)->orderBy('id','DESC')->firstOrFail();
         return view('category', [
             'name' => $name,
+            'slug' => $category->slug,
             // kolla på laravel pagination i eloquent-dokumentationen
             'topics' => $category->topics()->orderBy('id', 'DESC')->paginate(10)
         ]);
