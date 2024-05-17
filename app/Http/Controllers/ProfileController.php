@@ -57,4 +57,13 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+        // Download your data.
+        public function download()
+        {
+            // Retrieve the authenticated user.
+            $user = Auth::user();
+            // Create a new download response with user data.
+            return response()->json($user);
+        }
 }
