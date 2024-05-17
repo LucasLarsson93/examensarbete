@@ -128,6 +128,14 @@
             background-color: #c53030;
         }
     }
+    &-secondary {
+        background-color: #718096;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #4a5568;
+        }
+    }
 
 }
 
@@ -151,5 +159,9 @@
             color: #2c5282;
         }
     }
+}
+
+.ck-editor__editable_inline {
+    min-height: 100px;
 }
 
