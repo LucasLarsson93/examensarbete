@@ -35,6 +35,7 @@
                                     <a href="/categories/{{ $category->slug }}">
                                         <li class="category-item">
                                             {{ $category->name }}
+                                            <span class="text-sm text-gray-600" style="float:right;">{{ __("Total topics") }}: {{ $category->topics->count() }}</span>
                                         </li>
                                     </a>
                                     @endforeach

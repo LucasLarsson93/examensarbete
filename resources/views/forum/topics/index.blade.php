@@ -13,6 +13,8 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <div>
+                        </div>
+                        <div>
                             <h3 class="text-lg font-semibold">{{ __("Reply to topic") }}</h3>
                         </div>
                     </div>
@@ -37,7 +39,8 @@
                         @csrf
                         <div class="mb-4">
                             <label for="post_content" class="block text-sm font-medium text-gray-700">Post content</label>
-                            <textarea name="post_content" id="post_content" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" rows="3" required></textarea>
+                            {{-- Textarea for ckeditor post_content --}}
+                            <textarea name="post_content" id="post_content" rows="3"></textarea>
                         </div>
                         <div class="flex items-center justify-end">
                             <button type="submit" class="btn btn-primary">
@@ -67,9 +70,15 @@
                                 </div>
                             </div>
                                 <div class="post-body">
-                                    <div class="mt-4">
-                                        <p>{{ $topic->content }}</p>
-                                    </div>
+                                    <?php 
+                                    if(Auth::user()->id == $topic->user_id)
+                                    {
+                                        echo '<div class="post-body-edit">';
+                                        echo '<a href="/topics/'.$topic->id.'/edit/" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>';
+                                        echo '</div>';
+                                    }
+                                    ?>
+                                    <p>{!! $topic->content !!}</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-footer-meta">
@@ -80,43 +89,38 @@
                                     </div>
                                 </div>
                         </div>
-            <!-- Posts related to the topic goes here -->
-            @foreach ($posts as $post)
-            <div class="post post">
-                <div class="post-header">
-                    <?php 
-                    if(Auth::user()->is_admin || Auth::user()->id == $post->post_by)
-                    {
-                        //Echo a trash icon to delete the post.
-                        echo '<div class="post-options-item">';
-                        echo '<a href="/topics/'.$topic->id.'/delete/post/'. $post->id .'" class="text-sm text-blue-500 hover:underline"><i class="fa fa-trash"></i></a>';
-                        echo '</div>';
-                    }
-                    ?>
-                </div>
-                <div class="post-body">
-                    <?php 
-                    if(Auth::user()->id == $post->post_by)
-                    {
-                        echo '<div class="post-body-edit">';
-                        echo '<a href="/topics/'.$topic->id.'/edit/post/'. $post->id .'" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>';
-                        echo '</div>';
-                    }
-                    ?>
-                    <div class="mt-4">
-                        <p class="post-text">{{ $post->post_content }}</p>
-                    </div>
-                </div>
-                <div class="post-footer">
-                    <div class="post-footer-meta">
-                        <div class="post-metadata">
-                            <span class="post-author">{{ $post->user->name }}</span>
-                            <span class="post-metadata-date">{{ $post->created_at }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+                        <!-- Posts related to the topic go here -->
+                        @foreach ($posts as $post)
+                            <div class="post post">
+                                <div class="post-header">
+                                    @if (Auth::user()->is_admin || Auth::user()->id == $post->user_id)
+                                        <div class="post-options-item">
+                                            <a href="/topics/{{ $topic->id }}/delete/post/{{ $post->id }}" class="text-sm text-blue-500 hover:underline"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="post-body">
+                                    @if (Auth::user()->id == $post->user_id)
+                                        <div class="post-body-edit">
+                                            <a href="/topics/{{ $topic->id }}/edit/post/{{ $post->id }}" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>
+                                        </div>
+                                    @endif
+                                    <div class="mt-4">
+                                        <p class="post-text">{!! $post->post_content !!}</p>
+                                    </div>
+                                </div>
+                                <div class="post-footer">
+                                    <div class="post-footer-meta">
+                                        <div class="post-metadata">
+                                            @if ($post->user)
+                                                <span class="post-author">{{ $post->user->name }}</span>
+                                            @endif
+                                            <span class="post-metadata-date">{{ $post->created_at }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
             @if ($topic->posts->count() > 4)
             {{ $posts->links() }} <!-- Pagination links -->
 

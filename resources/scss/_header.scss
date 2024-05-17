@@ -7,3 +7,11 @@ main {
     flex-grow:1;
 }
 
+// Make nav bar sticky.
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+}

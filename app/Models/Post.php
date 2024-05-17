@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $primaryKey = 'id'; // Assuming 'id' is the primary key
-    protected $fillable = ['post_topic', 'content', 'post_by']; // Adjust fillable attributes as needed
+    protected $primaryKey = 'id';
+    protected $fillable = ['topic_id', 'content', 'user_id']; 
 
     public function topic()
     {
-        return $this->belongsTo(Topic::class, 'post_topic', 'id');
+        return $this->belongsTo(Topic::class, 'topic_id', 'id');
     }
 
     /**
@@ -19,6 +19,6 @@ class Post extends Model
     */
     public function user()
     {
-        return $this->belongsTo(User::class, 'post_by', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

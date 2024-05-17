@@ -20,7 +20,7 @@
                         </div>
                         {{-- Check if user is admin. --}}
                         @if (Auth::user()->is_admin)
-                            <a href="#" class="text-sm text-blue-500 hover:underline">{{ __("Admin Dashboard") }}</a>
+                            <a href="/admin" class="text-sm text-blue-500 hover:underline">{{ __("Admin Dashboard") }}</a>
                         @endif
                     </div>
                     <div class="border-t border-gray-200 mt-6 pt-6">
@@ -38,15 +38,14 @@
                             <ul>
                                 @foreach ($topics as $topic)
                                     <a href="/categories/{{ $name }}/topics/{{ $topic->id }}">
-                                        <li class="category-item"><strong>{{ $topic->title }} </strong><!-- Display the author and the date of the post --> <span style="float:right;">{{ $topic->created_at }}</span></li>
+                                        <li class="category-item"><strong>{{ $topic->title }} </strong><!-- Display total number of posts plus the topic to a count --> <span style="float:right;">{{ $topic->posts->count() }}<i class="fa fa-comments" aria-hidden="true" style="margin-left:1rem;"></i></span></li>
                                     </a>
-                                    <!-- Display other topic details as needed -->
                                 @endforeach
                             </ul>
                         </div>
                             {{ $topics->links() }} <!-- Pagination links -->
                         @endif
-                    </>
+                    </div>
                 </div>
             </div>
         </div>
