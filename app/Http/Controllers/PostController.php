@@ -103,7 +103,7 @@ class PostController extends Controller
         $category = Category::findOrFail($topic->category_id);
         // Check if the authenticated user is authorized to edit the post.
         if (Auth::user()->is_admin || Auth::id() === $post->user_id) {
-            return view('editPost', [
+            return view('forum.posts.edit', [
                 'topic' => $topic,
                 'post' => $post,
                 'category' => $category,

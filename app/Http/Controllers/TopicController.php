@@ -29,7 +29,7 @@ class TopicController extends Controller
         ->paginate(4);
 
 
-        return view('topic', [
+        return view('forum.topics.index', [
             'topic' => $topic,
             'category' => $category,
             'posts' => $posts
@@ -90,7 +90,7 @@ class TopicController extends Controller
         // Retrieve the category by ID.
         $category = Category::where('name', $categoryName)->firstOrFail();
         
-        return view('create', [
+        return view('forum.topics.create', [
             'category' => $category,
         ]);
     }
@@ -140,7 +140,7 @@ class TopicController extends Controller
 
         // Check if the authenticated user is authorized to edit the topic.
         if (Auth::user()->is_admin || Auth::id() === $topic->user_id) {
-            return view('editTopic', [
+            return view('forum.topics.edit', [
                 'topic' => $topic,
                 'category' => $category,
             ]);

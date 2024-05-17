@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function single ($name) {
         $category = Category::where('name', $name)->orderBy('id','DESC')->firstOrFail();
-        return view('category', [
+        return view('forum.categories.index', [
             'name' => $name,
             'slug' => $category->slug,
             // kolla på laravel pagination i eloquent-dokumentationen
