@@ -35,7 +35,7 @@
      */ 
      public function posts()
      {
-        return $this->hasMany(Post::class, 'post_topic', 'id');
+        return $this->hasMany(Post::class, 'topic_id', 'id');
      }
  
  }
