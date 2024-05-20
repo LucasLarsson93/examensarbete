@@ -159,6 +159,42 @@
             color: #2c5282;
         }
     }
+    &-thumbs-up {
+        color: #68d391;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #48bb78;
+        }
+    }
+    &-thumbs-down {
+        color: #e53e3e;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #c53030;
+        }
+    }
+    &-heart {
+        color: #f56565;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #e53e3e;
+        }
+    }
+    &-fire {
+        color: #f6ad55;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #ed8936;
+        }
+    }
 }
 
 .ck-editor__editable_inline {

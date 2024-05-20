@@ -84,6 +84,13 @@
                                     <div class="post-footer-meta">
                                         <div class="post-metadata">
                                             <span class="post-author">{{ $topic->user->name }}</span>
+                                            {{-- Reactions --}}
+                                            <div class="post-reactions">
+                                                <span class="post-reaction"><i class="fa fa-thumbs-up"></i></span>
+                                                <span class="post-reaction"><i class="fa fa-thumbs-down"></i></span>
+                                                <span class="post-reaction"><i class="fa fa-heart"></i></span>
+                                                <span class="post-reaction"><i class="fa fa-fire"></i></span>
+                                            </div>
                                             <span class="post-metadata-date">{{ $topic->created_at }}</span>
                                         </div>
                                     </div>
