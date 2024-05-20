@@ -7,12 +7,16 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function single ($name) {
-        $category = Category::where('name', $name)->orderBy('id','DESC')->firstOrFail();
+    public function single($slug)
+    {
+        // Retrieve the category by slug
+        $category = Category::where('slug', $slug)->orderBy('id', 'DESC')->firstOrFail();
+    
+        // Return the view with the category data
         return view('forum.categories.index', [
-            'name' => $name,
+            'name' => $category->name,
             'slug' => $category->slug,
-            // kolla på laravel pagination i eloquent-dokumentationen
+            // Paginate the topics related to the category
             'topics' => $category->topics()->orderBy('id', 'DESC')->paginate(10)
         ]);
     }

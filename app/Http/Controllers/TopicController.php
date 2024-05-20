@@ -95,37 +95,37 @@ class TopicController extends Controller
         ]);
     }
 
-    // Store new topic into the database.
+
     public function store(Request $request, $category_id)
     {
         // Validate the form data.
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => 'required|string|max:30',
+            'content' => 'required|string|max:10000',
         ]);
-    
+
         try {
             // Find the category by ID.
             $category = Category::findOrFail($category_id);
-    
+
             // Create a new topic instance and set its attributes.
             $topic = new Topic();
             $topic->title = $request->input('title');
             $topic->content = $request->input('content');
             $topic->user_id = Auth::id(); // Current authenticated user id.
             $topic->category_id = $category->id; // Use the category_id obtained from the category object.
-    
+
             // Save the new topic to the database.
             $topic->save();
-    
+
             // Redirect the user back to the category with a success message.
             return redirect()->route('category.single', [
-                'name' => strtolower($category->name),
+                'slug' => $category->slug,
             ])->with('success', 'Your topic has been created successfully.');
         } catch (\Exception $e) {
             // Log the error and redirect back with an error message.
             Log::error('Error creating topic: ' . $e->getMessage());
-    
+
             return back()->with('error', 'An error occurred while creating the topic.');
         }
     }
@@ -156,7 +156,7 @@ class TopicController extends Controller
         // Validate the form data.
         $validator = Validator::make($request->all(), [
             'title' => ['required', 'string', 'min:1', 'max:30', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
-            'content' => ['required', 'string', 'min:1', 'max:1000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+            'content' => ['required', 'string', 'min:1', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
         ]);
 
         // Check if validation fails

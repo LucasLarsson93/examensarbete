@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy'); // delete user route (Laravel Breeze).
     Route::get('/profile/download', [ProfileController::class, 'download'])->name('profile.download'); // Download your data in json format.
     Route::get('/categories/{categoryName}/topics/{id}', [TopicController::class, 'single'])->name('topic.single'); // single topic route.
-    Route::get('/categories/{name}',[CategoryController::class, 'single'])->name('category.single'); // single category route.
+    Route::get('/categories/{slug}',[CategoryController::class, 'single'])->name('category.single'); // single category route.
     Route::post('/topics/{topic_id}/posts', [PostController::class, 'storePost'])->name('topics.posts.store'); // store post route.
     Route::get('/topics/{topic_id}/delete/post/{post_id}', [PostController::class, 'destroyPost'])->name('posts.delete'); // delete post route.
     Route::get('/topics/{topic_id}/delete', [TopicController::class, 'destroyTopic'])->name('topics.delete'); // delete topic route.

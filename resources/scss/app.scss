@@ -59,6 +59,9 @@
     &-body {
         padding: 20px;
         border-bottom: 1px solid #e2e8f0;
+        max-height:300px;
+        overflow:auto;
+        min-height:300px;
 
         &-edit {
             margin-bottom: 20px;
