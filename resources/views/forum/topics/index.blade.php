@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            <a href="/dashboard">{{ __('Dashboard') }}</a>/{{ $category->slug }}/{{ $topic->title }}
         </h2>
     </x-slot>
     {{-- Vite to include my scss. --}}
@@ -55,41 +55,50 @@
                     <!-- Topic content goes here. -->
                         <div class="post post main-post">
                             <div class="post-header">
-                                <div class="">
-                                    <h2 class="post-title"></h2>
-                                    <div class="post-options">
-                                        <?php 
-                                        if(Auth::user()->is_admin || Auth::user()->id == $topic->user_id)
-                                        {
-                                            echo '<div class="post-options-item">';
-                                            echo '<a href="/topics/'.$topic->id.'/delete" class="text-sm text-blue-500 hover:underline"><i class="fa fa-trash"></i></a>';
-                                            echo '</div>';
-                                        }
-                                        ?>
+                            
+                                {{-- Add title, trash and edit in line but with margin. Title in center. --}}
+                                <div class="post-options">
+                                    @if (Auth::user()->is_admin || Auth::user()->id == $topic->user_id)
+                                        <div class="post-options-item">
+                                            <a href="/topics/{{ $topic->id }}/delete" class="text-sm text-blue-500 hover:underline"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    @endif
+                                    <div class="post-options-item">
+                                        <h1 class="post-title
+                                        text-center">{{ $topic->title }}</h1>
                                     </div>
-                                </div>
-                            </div>
-                                <div class="post-body">
                                     <?php 
-                                    if(Auth::user()->id == $topic->user_id)
-                                    {
-                                        echo '<div class="post-body-edit">';
-                                        echo '<a href="/topics/'.$topic->id.'/edit/" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>';
+                                    if (Auth::user()->is_admin || Auth::user()->id == $topic->user_id) {
+                                        echo '<div class="post-options-item">';
+                                        echo '<a href="/topics/' . $topic->id . '/edit" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>';
                                         echo '</div>';
                                     }
+
                                     ?>
+                                </div>
+                            </div>
+
+                                <div class="post-body">
                                     <p>{!! $topic->content !!}</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-footer-meta">
                                         <div class="post-metadata">
-                                            <span class="post-author">{{ $topic->user->name }}</span>
+                                            <span class="post-author
+                                            <?php //Check if author is admin then add .bg-admin class.
+                                                if($topic->user->is_admin) {
+                                                    echo 'bg-admin';
+                                                }
+                                                else {
+                                                    echo 'bg-user';
+                                                }
+                                                ?>">{{ $topic->user->name }}</span>
                                             {{-- Reactions --}}
-                                            <div class="post-reactions">
-                                                <span class="post-reaction"><i class="fa fa-thumbs-up"></i></span>
-                                                <span class="post-reaction"><i class="fa fa-thumbs-down"></i></span>
-                                                <span class="post-reaction"><i class="fa fa-heart"></i></span>
-                                                <span class="post-reaction"><i class="fa fa-fire"></i></span>
+                                            <div class="post-reaction">
+                                                <span class="post-reaction-item"><i class="fa fa-thumbs-up"></i></span>
+                                                <span class="post-reaction-item"><i class="fa fa-thumbs-down"></i></span>
+                                                <span class="post-reaction-item"><i class="fa fa-heart"></i></span>
+                                                <span class="post-reaction-item"><i class="fa fa-fire"></i></span>
                                             </div>
                                             <span class="post-metadata-date">{{ $topic->created_at }}</span>
                                         </div>
@@ -100,18 +109,23 @@
                         @foreach ($posts as $post)
                             <div class="post post">
                                 <div class="post-header">
+                                    <div class="post-options">                
                                     @if (Auth::user()->is_admin || Auth::user()->id == $post->user_id)
                                         <div class="post-options-item">
                                             <a href="/topics/{{ $topic->id }}/delete/post/{{ $post->id }}" class="text-sm text-blue-500 hover:underline"><i class="fa fa-trash"></i></a>
                                         </div>
                                     @endif
+                                    {{-- Check if post is written by user id or if is_admin is true. --}}
+                                    @if (Auth::user()->is_admin || Auth::user()->id == $post->user_id)
+                                        <div class="post-option-item">
+                                            <div class="post-body-edit">
+                                                <a href="/topics/{{ $topic->id }}/edit/post/{{ $post->id }}" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="post-body">
-                                    @if (Auth::user()->id == $post->user_id)
-                                        <div class="post-body-edit">
-                                            <a href="/topics/{{ $topic->id }}/edit/post/{{ $post->id }}" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>
-                                        </div>
-                                    @endif
                                     <div class="mt-4">
                                         <p class="post-text">{!! $post->post_content !!}</p>
                                     </div>
@@ -120,7 +134,14 @@
                                     <div class="post-footer-meta">
                                         <div class="post-metadata">
                                             @if ($post->user)
-                                                <span class="post-author">{{ $post->user->name }}</span>
+                                                <span class="post-author <?php //Check if author is admin then add .bg-admin class.
+                                                if($post->user->is_admin) {
+                                                    echo 'bg-admin';
+                                                }
+                                                else {
+                                                    echo 'bg-user';
+                                                }
+                                                ?>">{{ $post->user->name }}</span>
                                             @endif
                                             <span class="post-metadata-date">{{ $post->created_at }}</span>
                                         </div>
