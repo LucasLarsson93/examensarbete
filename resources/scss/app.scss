@@ -28,14 +28,29 @@
 }
 
 .main-post {
-    border: 1px solid #3182ce;
+    border: 2px solid #3182ce;
 }
 
 .post {
-    margin-top:20px;
+    margin-top:30px;
     background-color:white;
     margin-bottom:20px;
     border-radius: 8px;
+
+    // Style the reaction and each item in the reaction.
+    &-reaction {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid black;
+
+        &-item {
+            display: flex;
+            align-items: center;
+            margin-left:20px;
+        }
+    }
 
     &-header {
         padding: 20px;
@@ -48,6 +63,7 @@
             font-size: 1.2rem;
             font-weight: bold;
             color: #2d3748;
+            text-align:center;
         }
 
         &-meta {
@@ -59,9 +75,9 @@
     &-body {
         padding: 20px;
         border-bottom: 1px solid #e2e8f0;
-        max-height:300px;
+        max-height:150px;
         overflow:auto;
-        min-height:300px;
+        min-height:150px;
 
         &-edit {
             margin-bottom: 20px;
@@ -87,6 +103,28 @@
         align-items: center;
     }
 
+    &-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-item {
+            margin-left: 10px;
+        }
+    }
+
+    &-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+
+        &-item {
+            margin-left: 10px;
+        }
+    }
+
+
 }
 
 .alert {
@@ -104,6 +142,10 @@
         font-size:0.9rem;
         font-weight:bold;
         text-align:center;
+    }
+    &-info {
+        background-color:#fff3cd;
+        color:#856404;
     }
 }
 

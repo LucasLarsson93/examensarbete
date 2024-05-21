@@ -31,6 +31,7 @@ class TopicController extends Controller
 
         return view('forum.topics.index', [
             'topic' => $topic,
+            'title' => $topic->title,
             'category' => $category,
             'posts' => $posts
         ]);

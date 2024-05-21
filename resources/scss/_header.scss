@@ -20,3 +20,20 @@ header {
     background-color:#e7edf3;
     color:#e2e8f0;
 }
+
+.bg-admin {
+    background-color: #dc3545 !important;
+    color: #e2e8f0;
+    padding:6px;
+    font-weight:bold;
+    border-radius:4px;
+}
+
+.bg-user {
+    background-color: #3182ce !important;
+    font-weight:bold;
+    color: #e2e8f0;
+    padding:6px;
+    font-weight:bold;
+    border-radius:4px;
+}
