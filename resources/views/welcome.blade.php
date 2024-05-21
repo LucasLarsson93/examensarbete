@@ -41,7 +41,7 @@
                         @endif
                     </header>
                     <main class="mt-6">
-                        <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+                        <div class="grid gap-6 lg:grid-cols-2 lg:gap-8" style="margin-bottom:2rem;">
                             <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
                                 <div class="relative flex w-full flex-1 items-stretch">
                                     <div class="absolute -bottom-12 -left-12 h-32 w-[calc(100%+6rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"></div>
@@ -67,18 +67,37 @@
                                         <i class="fa fa-graduation-cap fa-3x text-[#FF2D20] dark:text-white"></i>
                                     </div>
                                     <div class="pt-3 sm:pt-5 lg:pt-0">
-                                        <h2 class="text-xl font-semibold text-black dark:text-white">Graduation Project</h2>
+                                        <h2 class="text-xl font-semibold text-black dark:text-white">Forum Features</h2>
                                         <p class="mt-4 text-sm/relaxed">
-                                            This forum has been my graduation project for the fullstack open source program at Nackademin YH. I have built this forum using Laravel, Tailwind CSS, SCSS, and Alpine.js.
+                                            This forum has a lot of features such as creating topics, replying to topics, editing and deleting topics, user role management and much more.
                                         </p>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
+                                <div class="">
+                                    <h2 class="text-xl font-semibold text-black dark:text-white">Graduation Project</h2>
+                                </div>
+                                <div class="relative flex items-center gap-6 lg:items-end">
+                                    <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
+                                        <i class="fab fa-github fa-3x text-[#FF2D20] dark:text-white"></i>
+                                    </div>
+                                    <div class="pt-3 sm:pt-5 lg:pt-0">
+                                        <p class="mt-4 text-sm/relaxed">
+                                            This forum has been my graduation project for the fullstack open source program at Nackademin YH. I've built this forum using Laravel, Tailwind CSS, SCSS, and Alpine.js.
+                                            To see the documentation about this project, click the button below.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-8">
+                                    <a href="https://github.com/LucasLarsson93/examensarbete" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">View on GitHub</a>
                                 </div>
                             </div>
                         </div>
                     </main>
                 </div>
             </div>
+            @include('common.footer')
         </div>
-        @include('common.footer')
     </body>
 </html>
