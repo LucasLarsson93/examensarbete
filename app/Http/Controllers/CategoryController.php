@@ -16,6 +16,7 @@ class CategoryController extends Controller
         return view('forum.categories.index', [
             'name' => $category->name,
             'slug' => $category->slug,
+            'description' => $category->description,
             // Paginate the topics related to the category
             'topics' => $category->topics()->orderBy('id', 'DESC')->paginate(10)
         ]);
