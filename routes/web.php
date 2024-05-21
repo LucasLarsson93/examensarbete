@@ -58,4 +58,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+// Route API to count users within the UsersController
+Route::get('/api/users/count', [AdminController::class, 'countUsers'])->name('users.count');
+
 require __DIR__.'/auth.php';

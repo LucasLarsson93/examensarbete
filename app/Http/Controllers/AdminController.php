@@ -164,4 +164,20 @@ class AdminController extends Controller
         // Create a new download response with user data as pdf format.
         return response()->download($user, 'user.pdf');
     }
+
+    // Count users API.
+    public function countUsers()
+    {
+        // Count the total number of users in the database.
+        $totalUsers = User::count();
+    
+        // Get the latest user.
+        $latestUser = User::orderBy('created_at', 'desc')->first();
+    
+        // Return the total number of users and the latest user as a JSON response.
+        return response()->json([
+            'total_users' => $totalUsers,
+            'latest_user' => $latestUser
+        ]);
+    }
 }
