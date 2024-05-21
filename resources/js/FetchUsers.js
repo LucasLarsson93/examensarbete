@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Display the latest user
             const latestUser = data.latest_user;
             if (latestUser) {
-                document.getElementById('latest-user').innerText = data.latest_user.name;
+                document.getElementById('latest-user').innerText = data.latest_user;
             }
         })
         .catch(error => console.error('Error fetching user data:', error));

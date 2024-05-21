@@ -170,14 +170,14 @@ class AdminController extends Controller
     {
         // Count the total number of users in the database.
         $totalUsers = User::count();
-    
-        // Get the latest user.
-        $latestUser = User::orderBy('created_at', 'desc')->first();
-    
-        // Return the total number of users and the latest user as a JSON response.
+
+        // Retrieve the latest user.
+        $latestUser = User::latest()->first(['name']);
+
+        // Return the total number of users and the name of the latest user as a JSON response.
         return response()->json([
             'total_users' => $totalUsers,
-            'latest_user' => $latestUser
+            'latest_user' => $latestUser ? $latestUser->name : null,
         ]);
     }
 }
