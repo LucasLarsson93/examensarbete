@@ -17,7 +17,7 @@ class PostController extends Controller
     // Validate the form data
     $validator = Validator::make($request->all(), [
         // Validate the post content field and strip certain tags.
-        'post_content' => ['required', 'string', 'min:1', 'max:1000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+        'post_content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
     ]);
 
     // Check if validation fails
@@ -119,7 +119,7 @@ class PostController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'post_content' => ['required', 'string', 'min:1', 'max:1000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+            'post_content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
         ]);
     
         // Check if validation fails
@@ -142,6 +142,7 @@ class PostController extends Controller
             $post->save();
             // Redirect the user back to the topic with a success message.
             return redirect()->route('topic.single', [
+                // Generate slug for the category name
                 'categoryName' => strtolower($category->name),
                 'id' => $id,
             ])->with('success', 'Your reply has been updated successfully.');

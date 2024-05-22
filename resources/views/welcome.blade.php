@@ -45,9 +45,9 @@
                         <div class="bg-gray-800 text-white py-20 mb-4 rounded-lg">
                             <div class="container mx-auto p-4">
                                 <h1 class="text-4xl font-bold mb-4">Welcome to my Forum</h1>
-                                <p class="text-lg">This has been my graduation project as a Fullstack Open Source student at Nackademin YH. If you want to read the documentation about the project you may find the Github link below. Register an account to explore the forum.</p>
+                                <p class="text-lg">This has been my graduation project as a Fullstack Open Source student at Nackademin YH. If you want to read the documentation about my graduation project you will find a link to the Github Repository below. Register an account to explore the forum.</p>
                                 <div class="mt-6">
-                                    <a href="https://github.com/LucasLarsson93/examensarbete" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">Github Repository</a>
+                                    <a href="https://github.com/LucasLarsson93/examensarbete" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8">Github</a>
                                 </div>
                             </div>
                         </div>

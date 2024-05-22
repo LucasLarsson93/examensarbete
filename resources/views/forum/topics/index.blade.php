@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="/dashboard">{{ __('Dashboard') }}</a>/{{ $category->slug }}/{{ $topic->title }}
+            <a href="/dashboard">{{ __('Dashboard') }}</a>/<a href="/categories/{{ $category->slug }}">{{ $category->name }}</a>/{{ $topic->title }}
         </h2>
     </x-slot>
     {{-- Vite to include my scss. --}}

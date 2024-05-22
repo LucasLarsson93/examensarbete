@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Log; // Import the Log facade.
 use Illuminate\Support\Facades\Validator; // Import the Validator facade.
+use Illuminate\Support\Str; // Import the Str facade.
 
 class TopicController extends Controller
 {
@@ -64,10 +65,13 @@ class TopicController extends Controller
 
                 //Delete all posts associated with the topic.
                 $topic->posts()->delete();
-
+                // Retrive category slug
+                $categoryName = Category::where('id', $topic->category_id)->firstOrFail()->name;
+                // Generate slug from category name.
+                $slug = Str::slug($categoryName); // Generate slug from category name.
                 //Redirect the user back to the category with a success message.
                 return redirect()->route('category.single', [
-                    'name' => strtolower($category->name), 
+                    'slug' => $slug, 
                 ])->with('success', 'The topic has been deleted successfully.');
             } else {
                 //Redirect back with an error message if user is not authorized
@@ -90,7 +94,6 @@ class TopicController extends Controller
     {
         // Retrieve the category by ID.
         $category = Category::where('name', $categoryName)->firstOrFail();
-        
         return view('forum.topics.create', [
             'category' => $category,
         ]);
@@ -101,8 +104,8 @@ class TopicController extends Controller
     {
         // Validate the form data.
         $request->validate([
-            'title' => 'required|string|max:30',
-            'content' => 'required|string|max:10000',
+            'title' => 'required|string|max:30|min:2',
+            'content' => 'required|string|max:10000|min:2',
         ]);
 
         try {
@@ -156,8 +159,8 @@ class TopicController extends Controller
     {
         // Validate the form data.
         $validator = Validator::make($request->all(), [
-            'title' => ['required', 'string', 'min:1', 'max:30', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
-            'content' => ['required', 'string', 'min:1', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+            'title' => ['required', 'string', 'min:2', 'max:30', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+            'content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
         ]);
 
         // Check if validation fails

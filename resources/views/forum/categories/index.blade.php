@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}/{{ $name }} 
+            <a href="/dashboard">{{ __('Dashboard') }}</a>/{{ $name }} 
         </h2>
     </x-slot>
     {{-- Vite to include my scss. --}}
