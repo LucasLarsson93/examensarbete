@@ -32,12 +32,14 @@
                             </div>
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
+                        {{-- Inbox --}}
+                        <x-dropdown-link :href="route('inbox', Auth::user()->id)">
+                            {{ __('Inbox') }} <i class="fa fa-envelope ms-2"></i>
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

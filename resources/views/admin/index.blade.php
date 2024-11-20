@@ -112,9 +112,12 @@
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p class="text-gray-900 whitespace-no-wrap">{{ $category->topics->count() }}</p>
                         </td>
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <a href="/admin/categories/{{ $category->id }}/edit" class="text-indigo-600 hover:text-indigo-900">{{ __("Edit") }}</a>
-                            <a href="/admin/categories/{{ $category->id }}/delete" class="text-red-600 hover:text-red-900 ml-4">{{ __("Delete") }}</a>
+                        <td class="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+                            <div class="flex space-x-4">
+                                <a href="/admin/categories/{{ $category->id }}/edit" class="text-indigo-600 hover:text-indigo-900 font-medium transition-all duration-300 ease-in-out">{{ __("Edit") }}</a>
+                                <a href="/admin/categories/{{ $category->id }}/delete" class="text-red-600 hover:text-red-900 font-medium transition-all duration-300 ease-in-out">{{ __("Delete") }}</a>
+                                <a href="/admin/categories/{{ $category->id }}/lock" class="text-yellow-600 hover:text-yellow-900 font-medium transition-all duration-300 ease-in-out">{{ __("Lock") }}</a>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
