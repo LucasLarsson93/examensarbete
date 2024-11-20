@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -58,12 +59,27 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-        // Download your data.
-        public function download()
-        {
-            // Retrieve the authenticated user.
-            $user = Auth::user();
-            // Create a new download response with user data.
-            return response()->json($user);
-        }
+    // Download your data.
+    public function download()
+    {
+        return response()->json(Auth::user());
+    }
+    // Inbox route.
+    public function inbox()
+    {
+        return view('forum.profile.inbox');
+    }
+
+    // Show user profile.
+    public function show($id)
+    {
+        // Find the user by id.
+        $user = User::findOrFail($id);
+
+        // Retrive all topics created by this user id.
+        $topics = $user->topics()->get();
+
+        // Return the user profile view together with topics.
+        return view('forum.profile.index', compact('user', 'topics'));
+    }
 }
