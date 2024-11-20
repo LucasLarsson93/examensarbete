@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Category;
 use App\Http\Middleware\IsAdmin;
 
+Route::get('/favicon.ico', function () {
+    return response()->file(public_path('favicon.ico'));
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -44,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy'); // delete user route (Laravel Breeze).
     Route::get('/profile/download', [ProfileController::class, 'download'])->name('profile.download'); // Download your data in json format.
     Route::get('/categories/{categoryName}/topics/{id}', [TopicController::class, 'single'])->name('topic.single'); // single topic route.
+    Route::post('/generate-speech', [TopicController::class, 'generateSpeech'])->name('topic.generateSpeech'); // Generate speech route.
     Route::get('/categories/{slug}',[CategoryController::class, 'single'])->name('category.single'); // single category route.
     Route::post('/topics/{topic_id}/posts', [PostController::class, 'storePost'])->name('topics.posts.store'); // store post route.
     Route::get('/topics/{topic_id}/delete/post/{post_id}', [PostController::class, 'destroyPost'])->name('posts.delete'); // delete post route.
@@ -55,7 +60,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/topics/store/{category_id}', [TopicController::class, 'store'])->name('topics.store'); // Store topic route.
     Route::patch('/topics/{topic_id}/update', [TopicController::class, 'update'])->name('topics.update'); // Update topic route.
     Route::patch('/topics/{topic_id}/update/post/{post_id}', [PostController::class, 'updatePost'])->name('posts.update'); // Update post route.
-
+    Route::get('/users/{id}', [ProfileController::class, 'show'])->name('users.show'); // User profile.
+    Route::get('/users/{id}/topics', [ProfileController::class, 'loadMoreTopics'])->name('users.topics'); // Load more topics.
+    // Inbox route.
+    Route::get('/inbox', [ProfileController::class, 'inbox'])->name('inbox');
 });
 
 // Route API to count users within the UsersController
