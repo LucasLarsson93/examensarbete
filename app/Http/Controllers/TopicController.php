@@ -9,6 +9,12 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Log; // Import the Log facade.
 use Illuminate\Support\Facades\Validator; // Import the Validator facade.
 use Illuminate\Support\Str; // Import the Str facade.
+use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
+use Google\Cloud\TextToSpeech\V1\SynthesisInput;
+use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
+use Google\Cloud\TextToSpeech\V1\AudioConfig;
+use Google\Cloud\TextToSpeech\V1\SsmlVoiceGender;
+use Illuminate\Support\Facades\Storage; // Import the Storage facade.
 
 class TopicController extends Controller
 {
@@ -36,6 +42,51 @@ class TopicController extends Controller
             'category' => $category,
             'posts' => $posts
         ]);
+    }
+
+    //Google speech to text.
+
+    public function generateSpeech(Request $request)
+    {
+        try {
+            // Content text from a topic or post.
+            $content = $request->input('content');
+            
+            // Create a new TextToSpeechClient
+            $client = new TextToSpeechClient();
+
+            // Create the SynthesisInput using the content
+            $synthesisInput = new SynthesisInput();
+            $synthesisInput->setText($content);
+    
+            // Create VoiceSelectionParams object
+            $voiceSelectionParams = new VoiceSelectionParams();
+            $voiceSelectionParams->setLanguageCode('sv-SE');
+            $voiceSelectionParams->setSsmlGender(SsmlVoiceGender::NEUTRAL);
+    
+            // Create AudioConfig object
+            $audioConfig = new AudioConfig();
+            $audioConfig->setAudioEncoding(\Google\Cloud\TextToSpeech\V1\AudioEncoding::MP3);
+    
+            // Make the API call
+            $response = $client->synthesizeSpeech($synthesisInput, $voiceSelectionParams, $audioConfig);
+            $audioContent = $response->getAudioContent();
+    
+            // Close the client
+            $client->close();
+    
+            // Log success information (you can adjust the log level)
+            Log::info('Text-to-Speech successfully generated for content: ' . $content);
+    
+            // Return the audio content as a response
+            return response($audioContent)->header('Content-Type', 'audio/mpeg');
+        } catch (\Exception $e) {
+            // Log the error message
+            Log::error('Text-to-Speech error: ' . $e->getMessage());
+            
+            // Optionally, return a response with error information
+            return response()->json(['error' => 'An error occurred while generating speech.'], 500);
+        }
     }
 
 

@@ -73,13 +73,12 @@
                                         echo '<a href="/topics/' . $topic->id . '/edit" class="text-sm text-blue-500 hover:underline"><i class="fa fa-edit"></i></a>';
                                         echo '</div>';
                                     }
-
                                     ?>
                                 </div>
                             </div>
 
                                 <div class="post-body">
-                                    <p>{!! $topic->content !!}</p>
+                                    <p id="text-to-speech">{{ strip_tags($topic->content) }}</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-footer-meta">
@@ -92,14 +91,37 @@
                                                 else {
                                                     echo 'bg-user';
                                                 }
-                                                ?>">{{ $topic->user->name }}</span>
-                                            {{-- Reactions --}}
-                                            <div class="post-reaction">
-                                                <span class="post-reaction-item"><i class="fa fa-thumbs-up"></i></span>
-                                                <span class="post-reaction-item"><i class="fa fa-thumbs-down"></i></span>
-                                                <span class="post-reaction-item"><i class="fa fa-heart"></i></span>
-                                                <span class="post-reaction-item"><i class="fa fa-fire"></i></span>
-                                            </div>
+                                                ?>">
+                                               {{-- Link to user profile with id --}}
+                                               <a href="{{ route('users.show', $topic->user->id) }}">{{ $topic->user->name }}</a>
+                                            </span>
+                                            {{-- number of comments --}}
+                                            <span class="post-comments-bubble"><i class="fa fa-comment"></i> {{ $topic->posts->count() }}</span>
+                                            {{-- Option for google api to speech the text --}}
+                                            <span class="post-speech-bubble">
+                                                <i class="fa fa-volume-up" style="cursor:pointer;" id="play-audio"></i>
+                                            </span>
+                                            <script>
+                                                document.getElementById('play-audio').addEventListener('click', function() {
+                                                    // Get the actual text content from the paragraph element
+                                                    const text = document.getElementById('text-to-speech').textContent;
+                                                    fetch('{{ route("topic.generateSpeech") }}', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                        },
+                                                        body: JSON.stringify({ content: text }) // Ensure the key matches what the Laravel method expects
+                                                    })
+                                                    .then(response => response.blob())
+                                                    .then(audioBlob => {
+                                                        const audioUrl = URL.createObjectURL(audioBlob);
+                                                        const audio = new Audio(audioUrl);
+                                                        audio.play();
+                                                    })
+                                                    .catch(error => console.error('Error:', error));
+                                                });
+                                            </script>
                                             <span class="post-metadata-date">{{ $topic->created_at }}</span>
                                         </div>
                                     </div>

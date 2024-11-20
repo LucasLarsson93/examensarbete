@@ -14,3 +14,5 @@
 {{-- CKEditor CDN --}}
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 @vite(['resources/js/app.js'])
+<!-- Favicon -->
+<link rel="icon" href="/public/favicon.ico" type="image/x-icon" />

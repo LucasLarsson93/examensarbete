@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->is_admin;
     }
+
+    // Define a relationship with the Topic model.
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }

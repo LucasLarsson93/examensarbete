@@ -12,7 +12,7 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
+        <!-- Password if sign in as guest is clicked make this not fillable. -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
@@ -23,7 +23,13 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-
+        {{-- Sign in as guest --}}
+        <div class="block mt-4">
+            <label for="guest" class="inline-flex items-center">
+                <input id="guest" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="guest">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Sign in as guest') }}</span>
+            </label>
+        </div>
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
