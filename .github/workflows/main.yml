@@ -21,7 +21,7 @@ jobs:
           REPO_NAME: ${{ secrets.REPO_NAME }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
-          cd /var/www/$REPO_NAME
+          cd /var/www/html/$REPO_NAME
           echo "Navigating to /var/www/html/$REPO_NAME"
           git stash
           git pull
