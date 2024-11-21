@@ -29,7 +29,7 @@ class TopicController extends Controller
         ->with('posts') // Load the posts relationship.
         ->firstOrFail();
         
-        // Retrieve posts related to the topic and eager load the user relationship.
+        // Retrieve posts related to the topic and load the user relationship.
         $posts = $topic->posts()
         ->with('user') // Load the user relationship for each post.
         ->orderBy('id', 'ASC')
