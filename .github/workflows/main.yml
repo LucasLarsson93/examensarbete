@@ -1,0 +1,29 @@
+name: SSH Git Pull Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ssh-git-pull:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: SSH and Git Pull
+        env:
+          SERVER: ${{ secrets.SERVER }}
+          USER: ${{ secrets.USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          REPO_NAME: ${{ secrets.REPO_NAME }}
+        run: |
+          sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
+          cd /var/www/$REPO_NAME
+          echo "Navigating to /var/www/$REPO_NAME"
+          git stash
+          git pull
+          git stash pop
+          EOF
