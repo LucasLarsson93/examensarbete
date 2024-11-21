@@ -44,7 +44,7 @@ class TopicController extends Controller
         ]);
     }
 
-    //Google text to speech.
+    //Google text to speech function.
 
     public function generateSpeech(Request $request)
     {
