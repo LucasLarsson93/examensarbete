@@ -22,7 +22,7 @@ jobs:
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
           cd /var/www/$REPO_NAME
-          echo "Navigating to /var/www/$REPO_NAME"
+          echo "Navigating to /var/www/html/$REPO_NAME"
           git stash
           git pull
           git stash pop
