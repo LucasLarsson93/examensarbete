@@ -44,12 +44,12 @@ class TopicController extends Controller
         ]);
     }
 
-    //Google speech to text.
+    //Google text to speech.
 
     public function generateSpeech(Request $request)
     {
         try {
-            // Content text from a topic or post.
+            // Content text from a topic.
             $content = $request->input('content');
             
             // Create a new TextToSpeechClient
@@ -72,10 +72,9 @@ class TopicController extends Controller
             $response = $client->synthesizeSpeech($synthesisInput, $voiceSelectionParams, $audioConfig);
             $audioContent = $response->getAudioContent();
     
-            // Close the client
             $client->close();
     
-            // Log success information (you can adjust the log level)
+            // Log success information
             Log::info('Text-to-Speech successfully generated for content: ' . $content);
     
             // Return the audio content as a response
