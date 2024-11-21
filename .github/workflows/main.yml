@@ -3,7 +3,7 @@ name: SSH Git Pull Workflow
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   ssh-git-pull:
