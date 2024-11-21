@@ -52,7 +52,7 @@ class TopicController extends Controller
             // Content text from a topic.
             $content = $request->input('content');
             
-            // Create a new TextToSpeechClient
+            // Create a new TextToSpeechClient.
             $client = new TextToSpeechClient();
 
             // Create the SynthesisInput using the content
