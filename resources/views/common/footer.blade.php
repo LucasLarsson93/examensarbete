@@ -18,8 +18,6 @@ const textareas = document.querySelectorAll('#post_content, #content');
 
 // Loop through each selected textarea element
 textareas.forEach(textarea => {
-    console.log('Textarea:', textarea);
-
     // Initialize CKEditor for each textarea
     ClassicEditor.create(textarea)
         .then(editor => {
