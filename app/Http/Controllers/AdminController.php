@@ -117,12 +117,18 @@ class AdminController extends Controller
     {
         // Find the user by ID.
         $user = User::findOrFail($id);
-    
-        // Delete the user from the database.
-        $user->delete();
-    
-        // Redirect to the admin dashboard with a success message.
-        return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+        // Check if the user is an admin.
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard')->withErrors('You cannot delete an admin user.');
+        }
+        else {
+            try {
+                $user->delete();
+                return redirect()->route('admin.dashboard')->with('success', 'User deleted successfully.');
+            } catch (\Exception $e) {
+                return redirect()->route('admin.dashboard')->withErrors('An error occurred while deleting the user.');
+            }
+        }
     }
 
     // Edit user view.
