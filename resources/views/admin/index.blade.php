@@ -60,7 +60,11 @@
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex space-x-4">
                                 <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-indigo-600 hover:text-indigo-900">{{ __("Edit") }}</a>
-                                <a href="{{ route('users.delete', ['id' => $user->id]) }}" class="text-red-600 hover:text-red-900 ml-4">{{ __("Delete") }}</a>    
+                                <form action="{{ route('users.delete', ['id' => $user->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 ml-4 bg-transparent border-0 p-0 text-left cursor-pointer">{{ __("Delete") }}</button>
+                                </form>    
                             </div>
                        </td>
                     </tr>
