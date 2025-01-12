@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin', // Include is_admin attribute for mass assignment
+        'ip_address', // Include ip_address attribute for mass assignment
     ];
 
     /**
