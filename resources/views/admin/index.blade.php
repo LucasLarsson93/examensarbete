@@ -58,9 +58,11 @@
                             <p class="text-gray-900 whitespace-no-wrap">{{ $user->is_admin ? __("Admin") : __("User") }}</p>
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-indigo-600 hover:text-indigo-900">{{ __("Edit") }}</a>
-                            <a href="{{ route('users.delete', ['id' => $user->id]) }}" class="text-red-600 hover:text-red-900 ml-4">{{ __("Delete") }}</a>
-                        </td>
+                            <div class="flex space-x-4">
+                                <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-indigo-600 hover:text-indigo-900">{{ __("Edit") }}</a>
+                                <a href="{{ route('users.delete', ['id' => $user->id]) }}" class="text-red-600 hover:text-red-900 ml-4">{{ __("Delete") }}</a>    
+                            </div>
+                       </td>
                     </tr>
                     @endforeach
                 </tbody>
