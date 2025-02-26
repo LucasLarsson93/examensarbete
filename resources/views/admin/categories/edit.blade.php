@@ -12,6 +12,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-semibold mb-6">Edit Category</h1>
+                        {{-- Button back to admin dashboard --}}
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary text-blue-700 border-blue-500 mt-6 mb-6">Back to Categories</a>
                     </div>
                     {{-- Display errors above the form --}}
                     @if ($errors->any())
@@ -41,6 +44,13 @@
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea name="description" id="description" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" rows="3">{{ $category->description }}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="admin_only" class="block text-sm font-medium text-gray-700">Admin Only</label>
+                            <select name="admin_only" id="admin_only" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
                         </div>
                         <div class="flex items-center justify-end">
                             <button type="submit" class="btn btn-primary">

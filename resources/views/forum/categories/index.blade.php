@@ -14,6 +14,7 @@
                     <p class="alert-text">
                         <?php 
                         echo $description;    
+                        $admin_only;
                         ?>
                     </p>
                 </div>
@@ -23,10 +24,17 @@
                     <div class="flex justify-between items-center mb-6">
                         <div>
                             {{-- Link to create topic view. --}}
-                            <?php 
+                            <?php
                             $categoryName = $name;
+                            if($admin_only == 1 && Auth::user()->is_admin == 0){
+                                echo "You do not have permission to create a topic in this category.";
+                            } else {
+                                //Display the create topic button.
+                                ?>
+                                <a class="btn btn-primary" href="{{ route('topics.create', ['categoryName' => $categoryName]) }}">Create Topic</a>
+                                <?php
+                            }
                             ?>
-                            <a class="btn btn-primary" href="{{ route('topics.create', ['categoryName' => $categoryName]) }}">Create Topic</a>
                         </div>
                         {{-- Check if user is admin. --}}
                         @if (Auth::user()->is_admin)

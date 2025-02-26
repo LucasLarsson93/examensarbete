@@ -7,11 +7,13 @@
     {{-- Vite to include my scss. --}}
     @vite(['resources/scss/app.scss'])
     <div class="py-12">
-        {{-- Reply option --}}
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-semibold mb-6">Create Category</h1>
+                        {{-- Button back to admin dashboard --}}
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary text-blue-700 border-blue-500 mt-6 mb-6">Back to Categories</a>
                     </div>
                     {{-- Display errors above the form --}}
                     @if ($errors->any())
@@ -25,13 +27,12 @@
                     @endif
                     {{-- Display success. --}}
                     @if (session('success'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success mt-6">
                             <p class="alert-text">{{ session('success') }}</p>
                         </div>
                     @endif
                     {{-- Form to store the category --}}
-                    <p>Maximum 30 charachters.</p>
-                    <form method="POST" action="{{ route('categories.store') }}">
+                    <form method="POST" action="{{ route('categories.store') }}" class="w-full max-w-lg mt-6">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700">Category name</label>
@@ -40,6 +41,13 @@
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea name="description" id="description" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" rows="3">{{ old('description') }}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="admin_only" class="block text-sm font-medium text-gray-700">Admin Only</label>
+                            <select name="admin_only" id="admin_only" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
                         </div>
                         <div class="flex items-center justify-end">
                             <button type="submit" class="btn btn-primary">

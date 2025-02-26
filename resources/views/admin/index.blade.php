@@ -102,6 +102,9 @@
                             {{ __("Topics") }}
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            {{ __("Admin_only") }}
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             {{ __("Actions") }}
                         </th>
                     </tr>
@@ -118,10 +121,19 @@
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p class="text-gray-900 whitespace-no-wrap">{{ $category->topics->count() }}</p>
                         </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">{{ $category->admin_only ? __("Yes") : __("No") }}</p>
+                        </td>
                         <td class="px-6 py-4 border-b border-gray-200 bg-white text-sm">
                             <div class="flex space-x-4">
                                 <a href="/admin/categories/{{ $category->id }}/edit" class="text-indigo-600 hover:text-indigo-900 font-medium transition-all duration-300 ease-in-out">{{ __("Edit") }}</a>
-                                <a href="/admin/categories/{{ $category->id }}/delete" class="text-red-600 hover:text-red-900 font-medium transition-all duration-300 ease-in-out">{{ __("Delete") }}</a>
+                                <form action="{{ route('categories.delete', $category->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 font-medium transition-all duration-300 ease-in-out">
+                                        {{ __("Delete") }}
+                                    </button>
+                                </form>
                                 <a href="/admin/categories/{{ $category->id }}/lock" class="text-yellow-600 hover:text-yellow-900 font-medium transition-all duration-300 ease-in-out">{{ __("Lock") }}</a>
                             </div>
                         </td>
