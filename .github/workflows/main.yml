@@ -19,11 +19,20 @@ jobs:
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
           REPO_NAME: ${{ secrets.REPO_NAME }}
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}  # GitHub username
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}      # Ensure this secret is defined in your repository settings
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
           cd /var/www/html/$REPO_NAME
           echo "Navigating to /var/www/html/$REPO_NAME"
+          
+          # Set up Git username and token for authentication
+          git config --global user.name "$GIT_USERNAME"
+          git config --global user.password "$GIT_TOKEN"
+          
+          # Now you can safely pull from origin without needing the token in the URL
           git stash
-          git pull
+          git pull origin master
+          echo "Pulled the latest changes from the master branch."
           git stash pop
           EOF
