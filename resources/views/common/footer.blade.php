@@ -5,6 +5,7 @@
     </div>
     {{-- Forum total register users and newest member --}}
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <a href="#top" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Top</a>
         <div class="text-sm text-gray-600">
             Total members: <span id="total-users" style="margin-right:2rem;"></span>
             {{-- Display latest registered user. --}}

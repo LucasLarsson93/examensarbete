@@ -4,7 +4,7 @@
         {{-- Head --}}
         @include('common.head')
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" id="top">
         <div class="min-h-screen bg-gray-100 parentWrapper">
             @include('layouts.navigation')
             <!-- Page Heading -->
