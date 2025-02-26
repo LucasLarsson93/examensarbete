@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Str;
-
+use Barryvdh\DomPDF\PDF as PDF;
 
 class AdminController extends Controller
 {
@@ -40,6 +40,14 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'admin_only' => 'string|max:255',
+        ]);
+
+        // Log the incoming data for debugging
+        Log::info('Category Create Request Data:', [
+            'name' => $request->name,
+            'description' => $request->description,
+            'admin_only' => $request->admin_only, // Logs whether the checkbox was checked or not
         ]);
     
         $slug = Str::slug($request->name); // Generate slug from category name.
@@ -50,21 +58,37 @@ class AdminController extends Controller
                 ->withInput($request->all())
                 ->withErrors(['slug' => 'The category slug already exists. Please choose a different name.']);
         }
+        Log::info("Inserting category: " . json_encode([
+            'name' => $request->name,
+            'description' => $request->description,
+            'admin_only' => $request->admin_only,
+        ]));
     
-        Category::create([
+        $category = Category::create([
             'name' => $request->name,
             'slug' => $slug,
             'description' => $request->description,
+            'admin_only' => $request->admin_only
         ]);
-    
-        // Redirect to the categories create page with a success message
+        
+        // Now update admin_only if needed
+        if ($request->admin_only == 1) {
+            //Log
+            Log::info("Updating category to admin_only: " . json_encode([
+                'admin_only' => $request->admin_only
+            ]));
+        }
+        else {
+            //Log
+            Log::info("Not updating category to admin_only");
+        }
+        
         return redirect()->route('admin.categories.create')->with('success', 'Category created successfully.');
     }
 
     // Edit category view.
     public function editCategory($id)
     {
-        // Find the category by ID.
         $category = Category::findOrFail($id);
     
         return view('admin.categories.edit', [
@@ -77,6 +101,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'admin_only' => 'string|max:255',
         ]);
     
         $category = Category::findOrFail($id);
@@ -93,6 +118,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'slug' => $slug,
             'description' => $request->description,
+            'admin_only' => $request->has('admin_only')
         ]);
     
         // Redirect to the categories list or edit page with a success message
@@ -162,13 +188,21 @@ class AdminController extends Controller
         // Redirect to the admin dashboard with a success message.
         return redirect()->route('admin.dashboard')->with('success', 'User updated successfully.');
     }
-    // Download a user's data as a pdf file.
     public function download($id)
     {
-        // Retrieve the authenticated user.
+        // Retrieve the user data.
         $user = User::findOrFail($id);
-        // Create a new download response with user data as pdf format.
-        return response()->download($user, 'user.pdf');
+    
+        // Generate the PDF using the user data.
+        $pdf = app(PDF::class);
+        $pdf->loadView('pdf.user', compact('user'));
+    
+        // Save the PDF to a temporary location (optional, for download response).
+        $tempFile = storage_path('app/public/user_' . $user->id . '.pdf');
+        $pdf->save($tempFile);
+    
+        // Return the PDF as a downloadable file.
+        return response()->download($tempFile)->deleteFileAfterSend(true);
     }
 
     // Count users API.
