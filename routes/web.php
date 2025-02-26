@@ -23,6 +23,9 @@ Route::get('/dashboard', function () {
     return view('forum.dashboard.index', compact('categories'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Public forum routes.
+Route::get('/categories/announcement', [CategoryController::class, 'index'])->name('categories.index');
+
 
 // Route group for admin users.
 Route::middleware([IsAdmin::class])->group(function () {
