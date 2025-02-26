@@ -11,7 +11,7 @@
       * @var array
       */
      protected $fillable = [
-         'name', 'description', 'slug'
+         'name', 'description', 'slug', 'admin_only'
      ];
  
      /**

@@ -78,7 +78,7 @@
                             </div>
 
                                 <div class="post-body">
-                                    <p id="text-to-speech">{{ strip_tags($topic->content) }}</p>
+                                    <p id="text-to-speech">{{ strip_tags(html_entity_decode($topic->content)) }}</p>
                                 </div>
                                 <div class="post-footer">
                                     <div class="post-footer-meta">

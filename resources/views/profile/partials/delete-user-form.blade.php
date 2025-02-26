@@ -9,10 +9,11 @@
         </p>
     </header>
     {{-- Download data. --}}
-    <x-secondary-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'download-user-data')"
-    >{{ __('Download Data') }}</x-secondary-button>
+    <x-secondary-button href="{{ route('users.logs', ['id' => $user->id]) }}">
+        {{ __('Download Data') }}
+    </x-secondary-button>
+    
+    {{-- Delete account. --}}
     <x-danger-button
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
