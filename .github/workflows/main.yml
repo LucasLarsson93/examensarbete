@@ -26,13 +26,14 @@ jobs:
           cd /var/www/html/$REPO_NAME
           echo "Navigating to /var/www/html/$REPO_NAME"
           
-          # Set up Git username and token for authentication
-          git config --global user.name "$GIT_USERNAME"
-          git config --global user.password "$GIT_TOKEN"
-          
-          # Now you can safely pull from origin without needing the token in the URL
+          # Pull the latest changes from the master branch
           git stash
-          git pull origin master
+          git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/$USER/$REPO_NAME.git master
           echo "Pulled the latest changes from the master branch."
+          
+          # Restart Laravel and Vite using PM2
+          pm2 restart laravel
+          pm2 restart vite
+          
           git stash pop
           EOF
