@@ -3,7 +3,7 @@
 <head>
     <title>User Details</title>
 </head>
-<body>
+<body id="top">
     <h1>{{ $user->name }}</h1>
     <p>Email: {{ $user->email }}</p>
     <p>Created At: {{ $user->created_at }}</p>
