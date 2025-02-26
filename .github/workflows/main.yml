@@ -28,7 +28,7 @@ jobs:
           
           # Pull the latest changes from the master branch
           git stash
-          git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/$USER/$REPO_NAME.git master
+          git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/LucasLarsson93/examensarbete.git master
           echo "Pulled the latest changes from the master branch."
           
           # Restart Laravel and Vite using PM2
