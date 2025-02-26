@@ -17,5 +17,9 @@ export default {
         },
     },
 
+    safelist: [
+        'animate-pulse',
+    ],
+
     plugins: [forms],
 };
