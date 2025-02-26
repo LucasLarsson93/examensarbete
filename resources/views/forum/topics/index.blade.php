@@ -7,53 +7,65 @@
     {{-- Vite to include my scss. --}}
     @vite(['resources/scss/app.scss'])
     <div class="py-12">
-        {{-- Reply option --}}
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold">{{ __("Reply to topic") }}</h3>
+        <?PHP
+        // If category is admin only and user is not admin then display message that replies are not open on this category.
+        if($category->admin_only == 1 && Auth::user()->is_admin == 0){
+            echo '<div class="alert alert-danger">';
+            echo '<p class="alert-text">Replies are not open on this category.</p>';
+            echo '</div>';
+        } else {
+            //Reply option is open.
+            ?>
+                {{-- Reply option --}}
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold">{{ __("Reply to topic") }}</h3>
+                                </div>
+                            </div>
+                            {{-- Display errors above the form --}}
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            {{-- Display success. --}}
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    <p class="alert-text">{{ session('success') }}</p>
+                                </div>
+                            @endif
+                            {{-- Form to reply to the topic --}}
+                            <form method="POST" action="/topics/{{ $topic->id }}/posts">
+                                @csrf
+                                <div class="mb-4">
+                                    <label for="post_content" class="block text-sm font-medium text-gray-700">Post content</label>
+                                    {{-- Textarea for ckeditor post_content --}}
+                                    <textarea name="post_content" id="post_content" rows="3"></textarea>
+                                </div>
+                                <div class="flex items-center justify-end">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __("Reply") }}
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    {{-- Display errors above the form --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    {{-- Display success. --}}
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            <p class="alert-text">{{ session('success') }}</p>
-                        </div>
-                    @endif
-                    {{-- Form to reply to the topic --}}
-                    <form method="POST" action="/topics/{{ $topic->id }}/posts">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="post_content" class="block text-sm font-medium text-gray-700">Post content</label>
-                            {{-- Textarea for ckeditor post_content --}}
-                            <textarea name="post_content" id="post_content" rows="3"></textarea>
-                        </div>
-                        <div class="flex items-center justify-end">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __("Reply") }}
-                            </button>
-                        </div>
-                    </form>
                 </div>
-            </div>
-        </div>
+            <?php
+        }
+        ?>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <!-- Topic content goes here. -->
-                        <div class="post post main-post">
+                        <div class="post post main-post mt-4">
                             <div class="post-header">
                             
                                 {{-- Add title, trash and edit in line but with margin. Title in center. --}}
