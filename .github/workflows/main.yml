@@ -34,6 +34,9 @@ jobs:
           # Restart Laravel and Vite using PM2
           pm2 restart laravel
           pm2 restart vite
+
+          # Build the assets with npm
+          npm run build
           
           git stash pop
           EOF
