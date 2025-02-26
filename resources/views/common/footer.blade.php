@@ -11,7 +11,7 @@
             Newest member: <span id="latest-user"></span>
         </div>
         <!-- //style this button -->
-        <a href="#top" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-md text-[0.6rem]">Top</a>
+        <a href="#top" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-md text-[0.6rem]">Top</a>
     </div>
 </footer>
 <script>
