@@ -48,7 +48,7 @@
                                 <p class="text-lg">This has been my graduation project as a Fullstack student at Nackademin in Stockholm. If you want to read the documentation about my graduation project you will find a link to the Github Repository below. Register an account to explore the forum.</p>
                                 <p class="text-lg">Since the first release, I have continued to enhance this project by adding new features with the help of the Laravel framework.</p>
                                 <div class="mt-6">
-                                    <a href="https://github.com/LucasLarsson93/examensarbete" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg mt-6 text-center w-32">Announcement</a>
+                                    <a href="https://codebylucas.com/categories/Announcements/topics/3" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg mt-6 text-center w-32 animate-pulse">View announcement</a>
                                 </div>
                             </div>
                         </div>
