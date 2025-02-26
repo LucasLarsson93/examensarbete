@@ -17,7 +17,7 @@ class CategoryController extends Controller
             'name' => $category->name,
             'slug' => $category->slug,
             'description' => $category->description,
-            // Paginate the topics related to the category
+            'admin_only' => $category->admin_only,
             'topics' => $category->topics()->orderBy('id', 'DESC')->paginate(10)
         ]);
     }
