@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -59,7 +60,7 @@ class User extends Authenticatable
     }
 
     // Define a relationship with the Topic model.
-    public function topics()
+    public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
     }

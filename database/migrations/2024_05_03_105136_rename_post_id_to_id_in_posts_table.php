@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->renameColumn('post_id', 'id');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->renameColumn('id', 'post_id');

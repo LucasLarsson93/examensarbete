@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
@@ -18,7 +20,7 @@ class Topic extends Model
     /**
      * Get the topics for the category.
      */
-    public function topics()
+    public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
     }
@@ -26,7 +28,7 @@ class Topic extends Model
     /**
      * Get the user that owns the topic.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -34,7 +36,7 @@ class Topic extends Model
     /**
      * Get the posts for the topic.
      */
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'topic_id', 'id');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -10,7 +11,7 @@ class Post extends Model
 
     protected $fillable = ['topic_id', 'content', 'user_id'];
 
-    public function topic()
+    public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class, 'topic_id', 'id');
     }
@@ -18,7 +19,7 @@ class Post extends Model
     /**
      * Get the user that owns the post.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

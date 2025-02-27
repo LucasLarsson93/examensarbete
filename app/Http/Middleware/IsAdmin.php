@@ -2,12 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
 class IsAdmin
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         // Check if the user is authenticated and is an admin
         if (Auth::check() && Auth::user()->isAdmin()) {

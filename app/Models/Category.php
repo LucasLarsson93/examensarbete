@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -18,7 +20,7 @@ class Category extends Model
     /**
      * Get the topics for the category.
      */
-    public function topics()
+    public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
     }
@@ -26,7 +28,7 @@ class Category extends Model
     /*
     Get the posts for the topic.
     */
-    public function posts()
+    public function posts(): HasManyThrough
     {
         return $this->hasManyThrough(Post::class, Topic::class);
     }
