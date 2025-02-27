@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PostController;
-use Illuminate\Support\Facades\Route;
-use App\Models\Category;
 use App\Http\Middleware\IsAdmin;
+use App\Models\Category;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/favicon.ico', function () {
     return response()->file(public_path('favicon.ico'));
@@ -17,15 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//dashboard route with categories. 
+//dashboard route with categories.
 Route::get('/dashboard', function () {
     $categories = Category::all();
+
     return view('forum.dashboard.index', compact('categories'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Public forum routes.
 Route::get('/categories/announcement', [CategoryController::class, 'index'])->name('categories.index');
-
 
 // Route group for admin users.
 Route::middleware([IsAdmin::class])->group(function () {
@@ -43,7 +43,6 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/users/{id}/download', [AdminController::class, 'download'])->name('users.logs');
 });
 
-
 // Route group for authenticated users.
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); // edit user route (Laravel Breeze).
@@ -52,12 +51,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/download', [ProfileController::class, 'download'])->name('profile.download'); // Download your data in json format.
     Route::get('/categories/{categoryName}/topics/{id}', [TopicController::class, 'single'])->name('topic.single'); // single topic route.
     Route::post('/generate-speech', [TopicController::class, 'generateSpeech'])->name('topic.generateSpeech'); // Generate speech route.
-    Route::get('/categories/{slug}',[CategoryController::class, 'single'])->name('category.single'); // single category route.
+    Route::get('/categories/{slug}', [CategoryController::class, 'single'])->name('category.single'); // single category route.
     Route::post('/topics/{topic_id}/posts', [PostController::class, 'storePost'])->name('topics.posts.store'); // store post route.
     Route::get('/topics/{topic_id}/delete/post/{post_id}', [PostController::class, 'destroyPost'])->name('posts.delete'); // delete post route.
     Route::get('/topics/{topic_id}/delete', [TopicController::class, 'destroyTopic'])->name('topics.delete'); // delete topic route.
     Route::get('/topics/{topic_id}/edit/post/{post_id}', [PostController::class, 'editPost'])->name('topics.editPost'); // edit post route.
-    Route::get('/topics/{topic_id}/edit', [TopicController:: class, 'editTopic'])->name('topics.editTopic'); // edit topic route.
+    Route::get('/topics/{topic_id}/edit', [TopicController::class, 'editTopic'])->name('topics.editTopic'); // edit topic route.
     Route::get('/categories/{categoryName}/topics/{id}/create', [PostController::class, 'create'])->name('posts.create'); // Create post route.
     Route::get('/topics/{categoryName}/create', [TopicController::class, 'create'])->name('topics.create'); // Create topic view.
     Route::post('/topics/store/{category_id}', [TopicController::class, 'store'])->name('topics.store'); // Store topic route.

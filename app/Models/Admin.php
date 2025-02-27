@@ -1,14 +1,12 @@
-<?php 
+<?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Admin extends Model
 {
-
     protected $table = 'users';
 
     // Local scope for filtering admins
@@ -17,12 +15,8 @@ class Admin extends Model
         return $query->where('is_admin', true);
     }
 
-
-    public function categories ()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class);
     }
-
-
-
 }

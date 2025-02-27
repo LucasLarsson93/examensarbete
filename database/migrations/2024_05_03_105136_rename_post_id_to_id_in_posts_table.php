@@ -1,21 +1,22 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenamePostIdToIdInPostsTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->renameColumn('post_id', 'id');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->renameColumn('id', 'post_id');
         });
     }
-}
+};

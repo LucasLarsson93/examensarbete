@@ -1,20 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth; // Import the Auth facade.
-use Illuminate\Http\Request;
-use App\Models\Topic;
-use App\Models\Category;
+
+use App\Models\Category; // Import the Auth facade.
 use App\Models\Post;
-use Illuminate\Support\Facades\Log; // Import the Log facade.
-use Illuminate\Support\Facades\Validator; // Import the Validator facade.
-use Illuminate\Support\Str; // Import the Str facade.
-use Google\Cloud\TextToSpeech\V1\TextToSpeechClient;
-use Google\Cloud\TextToSpeech\V1\SynthesisInput;
-use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
+use App\Models\Topic;
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\SsmlVoiceGender;
-use Illuminate\Support\Facades\Storage; // Import the Storage facade.
+use Google\Cloud\TextToSpeech\V1\SynthesisInput; // Import the Log facade.
+use Google\Cloud\TextToSpeech\V1\TextToSpeechClient; // Import the Validator facade.
+use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams; // Import the Str facade.
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str; // Import the Storage facade.
 
 class TopicController extends Controller
 {
@@ -23,24 +24,23 @@ class TopicController extends Controller
         // Retrieve the category by name.
         $category = Category::where('name', $categoryName)->firstOrFail();
         // Retrieve the topic by ID within the specified category.
-        $topic = Topic::where('id', $id)->orderBy('id','ASC')
-        ->where('category_id', $category->id)
-        ->with('user') // Load the user relationship.
-        ->with('posts') // Load the posts relationship.
-        ->firstOrFail();
-        
+        $topic = Topic::where('id', $id)->orderBy('id', 'ASC')
+            ->where('category_id', $category->id)
+            ->with('user') // Load the user relationship.
+            ->with('posts') // Load the posts relationship.
+            ->firstOrFail();
+
         // Retrieve posts related to the topic and load the user relationship.
         $posts = $topic->posts()
-        ->with('user') // Load the user relationship for each post.
-        ->orderBy('id', 'ASC')
-        ->paginate(4);
-
+            ->with('user') // Load the user relationship for each post.
+            ->orderBy('id', 'ASC')
+            ->paginate(4);
 
         return view('forum.topics.index', [
             'topic' => $topic,
             'title' => $topic->title,
             'category' => $category,
-            'posts' => $posts
+            'posts' => $posts,
         ]);
     }
 
@@ -51,43 +51,42 @@ class TopicController extends Controller
         try {
             // Content text from a topic.
             $content = $request->input('content');
-            
+
             // Create a new TextToSpeechClient.
-            $client = new TextToSpeechClient();
+            $client = new TextToSpeechClient;
 
             // Create the SynthesisInput using the content
-            $synthesisInput = new SynthesisInput();
+            $synthesisInput = new SynthesisInput;
             $synthesisInput->setText($content);
-    
+
             // Create VoiceSelectionParams object
-            $voiceSelectionParams = new VoiceSelectionParams();
+            $voiceSelectionParams = new VoiceSelectionParams;
             $voiceSelectionParams->setLanguageCode('sv-SE');
             $voiceSelectionParams->setSsmlGender(SsmlVoiceGender::NEUTRAL);
-    
+
             // Create AudioConfig object
-            $audioConfig = new AudioConfig();
+            $audioConfig = new AudioConfig;
             $audioConfig->setAudioEncoding(\Google\Cloud\TextToSpeech\V1\AudioEncoding::MP3);
-    
+
             // Make the API call
             $response = $client->synthesizeSpeech($synthesisInput, $voiceSelectionParams, $audioConfig);
             $audioContent = $response->getAudioContent();
-    
+
             $client->close();
-    
+
             // Log success information
-            Log::info('Text-to-Speech successfully generated for content: ' . $content);
-    
+            Log::info('Text-to-Speech successfully generated for content: '.$content);
+
             // Return the audio content as a response
             return response($audioContent)->header('Content-Type', 'audio/mpeg');
         } catch (\Exception $e) {
             // Log the error message
-            Log::error('Text-to-Speech error: ' . $e->getMessage());
-            
+            Log::error('Text-to-Speech error: '.$e->getMessage());
+
             // Optionally, return a response with error information
             return response()->json(['error' => 'An error occurred while generating speech.'], 500);
         }
     }
-
 
     //Delete a topic from the database.
     public function destroyTopic($id)
@@ -119,9 +118,10 @@ class TopicController extends Controller
                 $categoryName = Category::where('id', $topic->category_id)->firstOrFail()->name;
                 // Generate slug from category name.
                 $slug = Str::slug($categoryName); // Generate slug from category name.
+
                 //Redirect the user back to the category with a success message.
                 return redirect()->route('category.single', [
-                    'slug' => $slug, 
+                    'slug' => $slug,
                 ])->with('success', 'The topic has been deleted successfully.');
             } else {
                 //Redirect back with an error message if user is not authorized
@@ -144,11 +144,11 @@ class TopicController extends Controller
     {
         // Retrieve the category by ID.
         $category = Category::where('name', $categoryName)->firstOrFail();
+
         return view('forum.topics.create', [
             'category' => $category,
         ]);
     }
-
 
     public function store(Request $request, $category_id)
     {
@@ -163,7 +163,7 @@ class TopicController extends Controller
             $category = Category::findOrFail($category_id);
 
             // Create a new topic instance and set its attributes.
-            $topic = new Topic();
+            $topic = new Topic;
             $topic->title = $request->input('title');
             $topic->content = $request->input('content');
             $topic->user_id = Auth::id(); // Current authenticated user id.
@@ -178,7 +178,7 @@ class TopicController extends Controller
             ])->with('success', 'Your topic has been created successfully.');
         } catch (\Exception $e) {
             // Log the error and redirect back with an error message.
-            Log::error('Error creating topic: ' . $e->getMessage());
+            Log::error('Error creating topic: '.$e->getMessage());
 
             return back()->with('error', 'An error occurred while creating the topic.');
         }
@@ -190,7 +190,6 @@ class TopicController extends Controller
         // Find the topic by ID.
         $topic = Topic::findOrFail($id);
         $category = Category::findOrFail($topic->category_id);
-
 
         // Check if the authenticated user is authorized to edit the topic.
         if (Auth::user()->is_admin || Auth::id() === $topic->user_id) {
@@ -216,7 +215,7 @@ class TopicController extends Controller
         // Check if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        } 
+        }
 
         // Find the topic by ID.
         $topic = Topic::findOrFail($id);
@@ -226,11 +225,12 @@ class TopicController extends Controller
             // Update the topic attributes.
             $topic->title = $request->input('title');
             $topic->content = $request->input('content');
-            
+
             // Save the updated topic to the database.
             $topic->save();
             $categoryName = Category::where('id', $topic->category_id)->firstOrFail()->name;
             $slug = strtolower($categoryName);
+
             // Redirect the user back to the topic with a success message.
             return redirect()->route('topic.single', [
                 'categoryName' => $slug,

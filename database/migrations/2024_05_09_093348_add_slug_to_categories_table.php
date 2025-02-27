@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->string('slug')->unique()->after('name')->nullable();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->dropColumn('slug');
