@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth; // Import the Auth facade.
-use Illuminate\Http\Request;
-use App\Models\Topic;
-use App\Models\Category;
+
+use App\Models\Category; // Import the Auth facade.
 use App\Models\Post;
+use App\Models\Topic;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; // Import the Log facade.
 use Illuminate\Support\Facades\Validator; // Import the Validator facade.
 
@@ -14,50 +15,51 @@ class PostController extends Controller
     // Store a new post in the database.
     public function storePost(Request $request, $topic_id)
     {
-    // Validate the form data
-    $validator = Validator::make($request->all(), [
-        // Validate the post content field and strip certain tags.
-        'post_content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
-    ]);
+        // Validate the form data
+        $validator = Validator::make($request->all(), [
+            // Validate the post content field and strip certain tags.
+            'post_content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
+        ]);
 
-    // Check if validation fails
-    if ($validator->fails()) {
-        return redirect()->back()->withErrors($validator)->withInput();
-    }        
-    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         // Find the topic by ID
         $topic = Topic::findOrFail($topic_id);
-    
+
         // Retrieve the category details based on the category_id of the topic
         $category = Category::findOrFail($topic->category_id);
-    
+
         // Create a new post instance and set its attributes
-        $post = new Post();
+        $post = new Post;
         $post->topic_id = $topic->id;
         $post->post_content = $request->input('post_content');
-        $post->post_date = now(); 
+        $post->post_date = now();
         $post->user_id = Auth::id(); // Current authenticated user id
-        
+
         // Save the new post to the database
         $post->save();
-    
+
         // Redirect the user back to the topic with a success message
         return redirect()->route('topic.single', [
             'categoryName' => strtolower($category->name),
             'id' => $topic->id,
         ])->with('success', 'Your reply has been posted successfully.');
     }
+
     // Delete a post from the database.
     public function destroyPost($topicId, $postId)
     {
         try {
             // Find the post by ID within the specified topic.
             $post = Post::where('topic_id', $topicId)
-                        ->findOrFail($postId);
-                        
+                ->findOrFail($postId);
+
             // Retrieve the associated topic.
             $topic = $post->topic;
-    
+
             // Check if the authenticated user is authorized to delete the post
             if (Auth::user()->is_admin || Auth::id() === $post->user_id) {
                 // Log the deletion of the post.
@@ -67,10 +69,10 @@ class PostController extends Controller
                     'category_id' => $topic->category_id,
                     'deleted_by' => Auth::user()->name, // Log the user who deleted the post
                 ]);
-    
+
                 // Delete the post from the database.
                 $post->delete();
-    
+
                 // Redirect the user back to the topic with a success message.
                 return redirect()->route('topic.single', [
                     'categoryName' => strtolower($topic->category->name),
@@ -86,7 +88,7 @@ class PostController extends Controller
                 'post_id' => $postId,
                 'error_message' => $e->getMessage(),
             ]);
-    
+
             // Redirect back with an error message.
             return back()->with('error', 'An error occurred while deleting the post.');
         }
@@ -121,12 +123,12 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'post_content' => ['required', 'string', 'min:2', 'max:10000', 'not_regex:/<script>/', 'not_regex:/<iframe>/', 'not_regex:/<object>/', 'not_regex:/<embed>/'],
         ]);
-    
+
         // Check if validation fails
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        } 
-    
+        }
+
         // Find the topic by ID.
         $topic = Topic::findOrFail($id);
         // Find the post by ID.
@@ -140,6 +142,7 @@ class PostController extends Controller
             $post->post_content = $request->input('post_content');
             // Save the updated post to the database.
             $post->save();
+
             // Redirect the user back to the topic with a success message.
             return redirect()->route('topic.single', [
                 // Generate slug for the category name
