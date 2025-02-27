@@ -14,14 +14,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     /**
      * Define your route model bindings, pattern filters, and other route services.
-     *
-     * @return void
      */
 
     /**
      * Register the route service provider.
-     *
-     * @return void
      */
     public function register(): void
     {
