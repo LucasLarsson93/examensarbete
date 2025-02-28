@@ -44,7 +44,7 @@ class TopicController extends Controller
         ]);
     }
 
-    //Google text to speech function.
+    // Google text to speech function.
 
     public function generateSpeech(Request $request)
     {
@@ -88,7 +88,7 @@ class TopicController extends Controller
         }
     }
 
-    //Delete a topic from the database.
+    // Delete a topic from the database.
     public function destroyTopic($id)
     {
         try {
@@ -109,32 +109,32 @@ class TopicController extends Controller
                     'deleted_by' => Auth::user()->name, // Log the user who deleted the topic
                 ]);
 
-                //Delete the topic from the database.
+                // Delete the topic from the database.
                 $topic->delete();
 
-                //Delete all posts associated with the topic.
+                // Delete all posts associated with the topic.
                 $topic->posts()->delete();
                 // Retrive category slug
                 $categoryName = Category::where('id', $topic->category_id)->firstOrFail()->name;
                 // Generate slug from category name.
                 $slug = Str::slug($categoryName); // Generate slug from category name.
 
-                //Redirect the user back to the category with a success message.
+                // Redirect the user back to the category with a success message.
                 return redirect()->route('category.single', [
                     'slug' => $slug,
                 ])->with('success', 'The topic has been deleted successfully.');
             } else {
-                //Redirect back with an error message if user is not authorized
+                // Redirect back with an error message if user is not authorized
                 return back()->with('error', 'Unauthorized to delete this topic.');
             }
         } catch (\Exception $e) {
-            //Log any errors that occur during topic deletion.
+            // Log any errors that occur during topic deletion.
             Log::error('Error deleting topic', [
                 'topic_id' => $id,
                 'error_message' => $e->getMessage(),
             ]);
 
-            //Redirect back with an error message.
+            // Redirect back with an error message.
             return back()->with('error', 'An error occurred while deleting the topic.');
         }
     }

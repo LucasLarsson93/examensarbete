@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\User;
-use Barryvdh\DomPDF\PDF as PDF;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -73,12 +74,12 @@ class AdminController extends Controller
 
         // Now update admin_only if needed
         if ($request->admin_only == 1) {
-            //Log
+            // Log
             Log::info('Updating category to admin_only: '.json_encode([
                 'admin_only' => $request->admin_only,
             ]));
         } else {
-            //Log
+            // Log
             Log::info('Not updating category to admin_only');
         }
 
@@ -166,6 +167,25 @@ class AdminController extends Controller
         return view('admin.users.index', [
             'user' => $user,
         ]);
+    }
+
+    // Users index to search for users in table.
+    public function users(Request $request)
+    {
+        $search = $request->input('search'); // Get the search input
+    
+        // Retrieve users, filter by search term if provided
+        $users = User::when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%")
+                      ->orWhere('is_admin', 'like', "%{$search}%")
+                      ->orWhere('ip_address', 'like', "%{$search}%");
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
+    
+        return view('admin.users.search', compact('users', 'search'));
     }
 
     // Update user in the database.

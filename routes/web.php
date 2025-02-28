@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//dashboard route with categories.
+// dashboard route with categories.
 Route::get('/dashboard', function () {
     $categories = Category::all();
 
@@ -41,6 +41,8 @@ Route::middleware([IsAdmin::class])->group(function () {
     Route::patch('/admin/users/{id}/update', [AdminController::class, 'updateUser'])->name('users.update'); // Update user route.
     // Download a user's data in json format.
     Route::get('/admin/users/{id}/download', [AdminController::class, 'download'])->name('users.logs');
+    //users.index to search for users in table.
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 });
 
 // Route group for authenticated users.

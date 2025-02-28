@@ -1,8 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <h5 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{-- Link back to admin dashboard --}}
+            <a href="{{ route('admin.dashboard') }}" class="text-blue-600 hover:underline">{{ __('Dashboard') }}</a> / {{ __('Users') }}
+        </h5>
     </x-slot>
     {{-- Vite to include my scss. --}}
     @vite(['resources/scss/app.scss'])
@@ -13,7 +14,7 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-lg font-semibold">{{ __("Edit your post") }}</h3>
+                            <h3 class="text-lg font-semibold">{{ __("Edit user") }}</h3>
                         </div>
                     </div>
                     {{-- Display errors above the form --}}
