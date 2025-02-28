@@ -13,8 +13,8 @@ export default [
       "no-unused-vars": "error",  // Disallow unused variables
       "no-console": "warn",       // Warn for console logs
       "semi": ["error", "always"], // Require semicolons
-      "quotes": ["error", "double"], // Enforce double quotes
-      "indent": ["error", 2] // Enforce 2-space indentation
+      "quotes": ["error", "double"],
+      "indent": ["error", 2]
     }
   },
   pluginJs.configs.recommended,
