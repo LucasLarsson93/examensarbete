@@ -29,6 +29,13 @@
         </div>
         <div class="overflow-x-auto">
             <table class="min-w-full leading-normal shadow rounded-lg overflow-hidden">
+                {{-- Search box for users --}}
+                <div class="flex flex-row mb-1 sm:mb-0 justify-between w-full">
+                    <form method="GET" action="{{ route('admin.users') }}">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users..." class="border p-2">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2">Search</button>
+                    </form>
+                </div>
                 <thead>
                     <tr>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -39,6 +46,9 @@
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             {{ __("Role") }}
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            {{ __("ip address") }}
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             {{ __("Actions") }}
