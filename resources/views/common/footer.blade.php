@@ -10,6 +10,7 @@
             {{-- Display latest registered user. --}}
             Newest member: <span id="latest-user"></span>
         </div>
+        <!-- //style this button -->
         <a href="#top" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-md text-xs">Top</a>
     </div>
 </footer>
