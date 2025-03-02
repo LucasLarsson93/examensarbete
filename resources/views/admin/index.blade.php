@@ -67,6 +67,9 @@
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p class="text-gray-900 whitespace-no-wrap">{{ $user->is_admin ? __("Admin") : __("User") }}</p>
                         </td>
+                        <td>
+                            ...
+                        </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <div class="flex space-x-4">
                                 <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-indigo-600 hover:text-indigo-900">{{ __("Edit") }}</a>
