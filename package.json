@@ -13,7 +13,6 @@
         "lint": "npm run lint:js && npm run lint:css",
         "watch": "concurrently --kill-others 'npm run dev' 'npm run format' 'npm run lint'",
         "laravel-pint": "php artisan pint"
-
     },
     "devDependencies": {
         "@eslint/js": "^9.21.0",
@@ -22,7 +21,6 @@
         "autoprefixer": "^10.4.2",
         "axios": "^1.6.4",
         "concurrently": "^9.0.1",
-        "eslint": "^9.21.0",
         "globals": "^16.0.0",
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.31",
