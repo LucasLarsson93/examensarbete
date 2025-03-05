@@ -42,7 +42,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     // Download a user's data in json format.
     Route::get('/admin/users/{id}/download', [AdminController::class, 'download'])->name('users.logs');
     //users.index to search for users in table.
-    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.userss');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 });
 
 // Route group for authenticated users.
