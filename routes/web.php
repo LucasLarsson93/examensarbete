@@ -42,7 +42,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     // Download a user's data in json format.
     Route::get('/admin/users/{id}/download', [AdminController::class, 'download'])->name('users.logs');
     //users.index to search for users in table.
-    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.userss');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 });
 
 // Route group for authenticated users.
@@ -72,5 +72,8 @@ Route::middleware('auth')->group(function () {
 
 // Route API to count users within the UsersController
 Route::get('/api/users/count', [AdminController::class, 'countUsers'])->name('users.count');
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
 
 require __DIR__.'/auth.php';
