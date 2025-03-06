@@ -27,25 +27,8 @@ jobs:
       - name: Install dependencies
         run: npm install && composer install --no-progress --no-suggest
 
-      - name: Run ESLint
-        id: eslint-check
-        continue-on-error: true
-        run: npm run lint
-
-      - name: Fix ESLint issues if necessary
-        if: steps.eslint-check.outcome == 'failure'
-        run: |
-          echo "ESLint issues detected. Running --fix..."
-          npm run lint -- --fix
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add .
-          git commit -m "chore: Auto-fix ESLint issues" || echo "No changes to commit"
-          git push || echo "No changes to push"
-
       - name: Run Laravel Pint (PHP Formatter)
         run: vendor/bin/pint --test
 
       - name: Run Blade Formatter
         run: npx blade-formatter "resources/views/**/*.blade.php" --check
-        

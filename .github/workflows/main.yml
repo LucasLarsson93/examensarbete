@@ -13,30 +13,43 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: SSH and Git Pull
+      - name: SSH and Deploy
         env:
           SERVER: ${{ secrets.SERVER }}
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
           REPO_NAME: ${{ secrets.REPO_NAME }}
-          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}  # GitHub username
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}      # Ensure this secret is defined in your repository settings
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
           cd /var/www/html/$REPO_NAME
           echo "Navigating to /var/www/html/$REPO_NAME"
-          
+
           # Pull the latest changes from the master branch
           git stash
           git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/LucasLarsson93/examensarbete.git master
           echo "Pulled the latest changes from the master branch."
-          
+
+          # Run Laravel optimizations
+          php artisan down --render="errors::503" --retry=60 || true
+          php artisan cache:clear
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+          php artisan route:cache
+          php artisan config:cache
+          php artisan view:cache
+          php artisan migrate --force  # Run database migrations safely
+          php artisan up  # Bring the app back online
+
           # Restart Laravel and Vite using PM2
           pm2 restart laravel
           pm2 restart vite
 
           # Build the assets with npm
           npm run build
-          
-          git stash pop
+
+          git stash pop || echo "No stashed changes to apply"
+          echo "Deployment completed successfully!"
           EOF

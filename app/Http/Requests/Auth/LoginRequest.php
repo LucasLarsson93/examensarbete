@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -27,9 +28,17 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email' => $this->has('guest') ? ['nullable'] : ['required'],
+            'password' => $this->has('guest') ? ['nullable'] : ['required'], // Only require password if not signing in as guest
         ];
+    }    
+
+    public function guest(): RedirectResponse
+    {
+        // Log in user with ID 25 (guest user)
+        Auth::loginUsingId(25);
+
+        return redirect()->route('dashboard', [], false);
     }
 
     /**
@@ -73,6 +82,12 @@ class LoginRequest extends FormRequest
                 'minutes' => ceil($seconds / 60),
             ]),
         ]);
+    }
+
+    //Check if the user wants to be remembered.
+    public function remember(): bool
+    {
+        return $this->boolean('remember');
     }
 
     /**

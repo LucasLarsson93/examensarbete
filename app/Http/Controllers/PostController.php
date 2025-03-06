@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\Validator; // Import the Validator facade.
 
 class PostController extends Controller
 {
-    // Store a new post in the database.
+    // Store a new post in the database (guest id 25 should not be able to do this).
     public function storePost(Request $request, $topic_id)
     {
+        $guestUserId = env('GUEST_USER_ID', 1);
+        // Check user id is not 25 (guest user).
+        if (Auth::id() === $guestUserId) {
+            return redirect()->route('')->with('error', 'You must be registered in to post a reply.');
+        }
         // Validate the form data
         $validator = Validator::make($request->all(), [
             // Validate the post content field and strip certain tags.

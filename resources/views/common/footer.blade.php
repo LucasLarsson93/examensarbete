@@ -9,6 +9,22 @@
             Total members: <span id="total-users" style="margin-right:2rem;"></span>
             {{-- Display latest registered user. --}}
             Newest member: <span id="latest-user"></span>
+            {{-- Display online users. --}}
+            <span class="ml-6">
+                Online: <span id="logged-in-users">
+                    <?PHP
+                    // Get names of logged in users.
+                    $users = DB::table('users')->where('is_online', 1)->get();
+                    $usernames = [];
+    
+                    foreach ($users as $user) {
+                        $backgroundColor = $user->is_admin ? 'bg-red-600' : 'bg-gray-600';
+                        $usernames[] = '<span class="' . $backgroundColor . ' text-white font-bold px-2 py-1 rounded">' . $user->name . '</span>';
+                    }
+                    echo implode(', ', $usernames);
+                    ?>
+                </span>
+            </span>
         </div>
         <!-- //style this button -->
         <a href="#top" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-md text-xs">Top</a>

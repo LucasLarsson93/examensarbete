@@ -50,4 +50,22 @@
             </x-primary-button>
         </div>
     </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const guestCheckbox = document.getElementById("guest");
+            const passwordField = document.getElementById("password");
+            const emailField = document.getElementById("email");
+    
+            guestCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    emailField.removeAttribute("required");
+                    passwordField.removeAttribute("required");
+                    passwordField.value = "";
+                } else {
+                    emailField.setAttribute("required", "required");
+                    passwordField.setAttribute("required", "required");
+                }
+            });
+        });
+    </script>
 </x-guest-layout>
