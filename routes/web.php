@@ -26,7 +26,18 @@ Route::get('/dashboard', function () {
 
 // Public forum routes.
 Route::get('/categories/announcement', [CategoryController::class, 'index'])->name('categories.index');
-
+//Route for privacy policy
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
+//Route for terms of service
+Route::get('/terms-of-service', function () {
+    return view('terms-of-service');
+})->name('terms-of-service');
+//Route for shop
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
 // Route group for admin users.
 Route::middleware([IsAdmin::class])->group(function () {
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
