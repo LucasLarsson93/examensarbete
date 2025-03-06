@@ -13,7 +13,6 @@
             <span class="ml-6">
                 Online: <span id="logged-in-users">
                     <?PHP
-                    // Get names of logged in users.
                     $users = DB::table('users')->where('is_online', 1)->get();
                     $usernames = [];
     
