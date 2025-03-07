@@ -31,4 +31,4 @@ jobs:
         run: vendor/bin/pint
 
       - name: Run Blade Formatter
-        run: npx blade-formatter "resources/views/**/*.blade.php" --fix
+        run: npx blade-formatter "resources/views/**/*.blade.php" --write
