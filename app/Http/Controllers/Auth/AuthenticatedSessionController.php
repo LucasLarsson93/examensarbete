@@ -26,60 +26,59 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request..
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    // Check if signing in as a guest
-    if ($request->has('guest')) {
-        $guestUserId = env('GUEST_USER_ID', 1);
-        Log::info("Guest login detected, attempting to log in user ID {$guestUserId}");
-        Auth::loginUsingId($guestUserId);
-
-        // Mark guest user as online
-        $guestUser = Auth::user();
-        if ($guestUser) {
-            $guestUser->is_online = true;
-            $guestUser->update();
+    {
+        // Check if signing in as a guest
+        if ($request->has('guest')) {
+            $guestUserId = env('GUEST_USER_ID', 1);
+            Log::info(env('GIT_USERNAME'));
+            Log::info("Guest login detected, attempting to log in user ID {$guestUserId}");
+            Auth::loginUsingId($guestUserId);
+    
+            // Mark guest user as online
+            $guestUser = Auth::user();
+            if ($guestUser) {
+                $guestUser->is_online = true;
+                $guestUser->update();
+            }
+    
+            return redirect()->route('dashboard');
         }
-
-        return redirect()->route('dashboard');
+    
+        // Standard authentication
+        $request->authenticate();
+        $request->session()->regenerate();
+    
+        // Mark authenticated user as online
+        $user = Auth::user();
+        if ($user) {
+            $user->is_online = true;
+            $user->update();
+        }
+    
+        return redirect()->intended(route('dashboard'));
     }
-
-    // Standard authentication
-    $request->authenticate();
-    $request->session()->regenerate();
-
-    // Mark authenticated user as online
-    $user = Auth::user();
-    if ($user) {
-        $user->is_online = true;
-        $user->update();
-    }
-
-    return redirect()->intended(route('dashboard'));
-}
 
     /**
      * Destroy an authenticated session.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Get the current logged-in user
+
         $user = Auth::guard('web')->user();
     
-        // Update the user's is_online status to 0
         if ($user) {
             DB::table('users')
                 ->where('id', $user->id)
                 ->update(['is_online' => 0]);
         }
     
-        // Log the user out
         Auth::guard('web')->logout();
     
-        // Invalidate the session and regenerate the token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    
-        // Redirect to the homepage or other desired route
-        return redirect('/');
+
+        Log::info("User logged out and redirected.");
+
+        return redirect()->route('welcome'); 
     }
 }
