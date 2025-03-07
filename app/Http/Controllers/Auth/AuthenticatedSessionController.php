@@ -63,24 +63,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Get the current logged-in user
+
         $user = Auth::guard('web')->user();
     
-        // Update the user's is_online status to 0
         if ($user) {
             DB::table('users')
                 ->where('id', $user->id)
                 ->update(['is_online' => 0]);
         }
     
-        // Log the user out
         Auth::guard('web')->logout();
     
-        // Invalidate the session and regenerate the token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-    
-        // Redirect to the homepage or other desired route
-        return redirect('/');
+
+        Log::info("User logged out and redirected.");
+
+        return redirect()->route('welcome'); 
     }
 }

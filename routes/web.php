@@ -16,7 +16,8 @@ Route::get('/favicon.ico', function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 
 // dashboard route with categories.
 Route::get('/dashboard', function () {
