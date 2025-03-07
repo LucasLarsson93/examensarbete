@@ -21,9 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin', // Include is_admin attribute for mass assignment
-        'ip_address', // Include ip_address attribute for mass assignment
-        'is_online', // Include is_online attribute for mass assignment
+        'is_admin',
+        'ip_address',
+        'is_online',
+        'last_activity',
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'is_online' => 'boolean',
+            'last_activity' => 'datetime',
         ];
     }
 

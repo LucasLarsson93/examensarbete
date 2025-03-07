@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicController;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\UpdateLastActivity;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -57,27 +58,26 @@ Route::middleware([IsAdmin::class])->group(function () {
 });
 
 // Route group for authenticated users.
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit'); // edit user route (Laravel Breeze).
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); // update user route (Laravel Breeze).
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy'); // delete user route (Laravel Breeze).
-    Route::get('/profile/download', [ProfileController::class, 'download'])->name('profile.download'); // Download your data in json format.
-    Route::get('/categories/{categoryName}/topics/{id}', [TopicController::class, 'single'])->name('topic.single'); // single topic route.
-    Route::post('/generate-speech', [TopicController::class, 'generateSpeech'])->name('topic.generateSpeech'); // Generate speech route.
-    Route::get('/categories/{slug}', [CategoryController::class, 'single'])->name('category.single'); // single category route.
-    Route::post('/topics/{topic_id}/posts', [PostController::class, 'storePost'])->name('topics.posts.store'); // store post route.
-    Route::get('/topics/{topic_id}/delete/post/{post_id}', [PostController::class, 'destroyPost'])->name('posts.delete'); // delete post route.
-    Route::get('/topics/{topic_id}/delete', [TopicController::class, 'destroyTopic'])->name('topics.delete'); // delete topic route.
-    Route::get('/topics/{topic_id}/edit/post/{post_id}', [PostController::class, 'editPost'])->name('topics.editPost'); // edit post route.
-    Route::get('/topics/{topic_id}/edit', [TopicController::class, 'editTopic'])->name('topics.editTopic'); // edit topic route.
-    Route::get('/categories/{categoryName}/topics/{id}/create', [PostController::class, 'create'])->name('posts.create'); // Create post route.
-    Route::get('/topics/{categoryName}/create', [TopicController::class, 'create'])->name('topics.create'); // Create topic view.
-    Route::post('/topics/store/{category_id}', [TopicController::class, 'store'])->name('topics.store'); // Store topic route.
-    Route::patch('/topics/{topic_id}/update', [TopicController::class, 'update'])->name('topics.update'); // Update topic route.
-    Route::patch('/topics/{topic_id}/update/post/{post_id}', [PostController::class, 'updatePost'])->name('posts.update'); // Update post route.
-    Route::get('/users/{id}', [ProfileController::class, 'show'])->name('users.show'); // User profile.
-    Route::get('/users/{id}/topics', [ProfileController::class, 'loadMoreTopics'])->name('users.topics'); // Load more topics.
-    // Inbox route.
+Route::middleware(['auth', UpdateLastActivity::class])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/download', [ProfileController::class, 'download'])->name('profile.download');
+    Route::get('/categories/{categoryName}/topics/{id}', [TopicController::class, 'single'])->name('topic.single');
+    Route::post('/generate-speech', [TopicController::class, 'generateSpeech'])->name('topic.generateSpeech');
+    Route::get('/categories/{slug}', [CategoryController::class, 'single'])->name('category.single');
+    Route::post('/topics/{topic_id}/posts', [PostController::class, 'storePost'])->name('topics.posts.store');
+    Route::get('/topics/{topic_id}/delete/post/{post_id}', [PostController::class, 'destroyPost'])->name('posts.delete');
+    Route::get('/topics/{topic_id}/delete', [TopicController::class, 'destroyTopic'])->name('topics.delete');
+    Route::get('/topics/{topic_id}/edit/post/{post_id}', [PostController::class, 'editPost'])->name('topics.editPost');
+    Route::get('/topics/{topic_id}/edit', [TopicController::class, 'editTopic'])->name('topics.editTopic');
+    Route::get('/categories/{categoryName}/topics/{id}/create', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/topics/{categoryName}/create', [TopicController::class, 'create'])->name('topics.create');
+    Route::post('/topics/store/{category_id}', [TopicController::class, 'store'])->name('topics.store');
+    Route::patch('/topics/{topic_id}/update', [TopicController::class, 'update'])->name('topics.update');
+    Route::patch('/topics/{topic_id}/update/post/{post_id}', [PostController::class, 'updatePost'])->name('posts.update');
+    Route::get('/users/{id}', [ProfileController::class, 'show'])->name('users.show');
+    Route::get('/users/{id}/topics', [ProfileController::class, 'loadMoreTopics'])->name('users.topics');
     Route::get('/inbox', [ProfileController::class, 'inbox'])->name('inbox');
 });
 
