@@ -23,7 +23,6 @@ jobs:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
-          cd /var/www/html/$REPO_NAME
           echo "Navigating to /var/www/html/$REPO_NAME"
 
           # Pull the latest changes from the master branch
@@ -56,4 +55,8 @@ jobs:
 
           git stash pop || echo "No stashed changes to apply"
           echo "Deployment completed successfully!"
+
+          # Set up cron job for Laravel schedule
+          (crontab -l ; echo "* * * * * php artisan schedule:run >> /dev/null 2>&1") | crontab -
+          echo "Cron job for schedule:run added to crontab."
           EOF
