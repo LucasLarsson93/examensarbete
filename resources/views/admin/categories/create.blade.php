@@ -1,8 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <a href="{{ route('admin.dashboard') }}"><h2 class="font-semibold text-xl text-gray-800 leading-tight">
-           {{ __('Admin Dashboard') }}
-        </h2></a>
+        <a href="{{ route('admin.dashboard') }}">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Admin Dashboard') }}
+            </h2>
+        </a>
     </x-slot>
     {{-- Vite to include my scss. --}}
     @vite(['resources/scss/app.scss'])
@@ -13,7 +15,8 @@
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-2xl font-semibold mb-6">Create Category</h1>
                         {{-- Button back to admin dashboard --}}
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary text-blue-700 border-blue-500 mt-6 mb-6">Back to Categories</a>
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="btn btn-secondary text-blue-700 border-blue-500 mt-6 mb-6">Back to Categories</a>
                     </div>
                     {{-- Display errors above the form --}}
                     @if ($errors->any())
@@ -36,22 +39,27 @@
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700">Category name</label>
-                            <input type="text" name="name" id="name" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" value="{{ old('name') }}">
+                            <input type="text" name="name" id="name"
+                                class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                value="{{ old('name') }}">
                         </div>
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea name="description" id="description" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" rows="3">{{ old('description') }}</textarea>
+                            <textarea name="description" id="description"
+                                class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                rows="3">{{ old('description') }}</textarea>
                         </div>
                         <div class="mb-4">
                             <label for="admin_only" class="block text-sm font-medium text-gray-700">Admin Only</label>
-                            <select name="admin_only" id="admin_only" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <select name="admin_only" id="admin_only"
+                                class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
                         </div>
                         <div class="flex items-center justify-end">
                             <button type="submit" class="btn btn-primary">
-                                {{ __("Create Category") }}
+                                {{ __('Create Category') }}
                             </button>
                         </div>
                     </form>

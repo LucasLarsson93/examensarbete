@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="/dashboard">{{ __('Dashboard') }}</a>/{{ $name }} 
+            <a href="/dashboard">{{ __('Dashboard') }}</a>/{{ $name }}
         </h2>
     </x-slot>
     {{-- Vite to include my scss. --}}
@@ -12,8 +12,8 @@
             @if ($description)
                 <div class="alert alert-info">
                     <p class="alert-text">
-                        <?php 
-                        echo $description;    
+                        <?php
+                        echo $description;
                         $admin_only;
                         ?>
                     </p>
@@ -31,36 +31,42 @@
                             } else {
                                 //Display the create topic button.
                                 ?>
-                                <a class="btn btn-primary" href="{{ route('topics.create', ['categoryName' => $categoryName]) }}">Create Topic</a>
-                                <?php
+                            <a class="btn btn-primary"
+                                href="{{ route('topics.create', ['categoryName' => $categoryName]) }}">Create Topic</a>
+                            <?php
                             }
                             ?>
                         </div>
                         {{-- Check if user is admin. --}}
                         @if (Auth::user()->is_admin)
-                            <a href="/admin" class="text-sm text-blue-500 hover:underline">{{ __("Admin Dashboard") }}</a>
+                            <a href="/admin"
+                                class="text-sm text-blue-500 hover:underline">{{ __('Admin Dashboard') }}</a>
                         @endif
                     </div>
                     <div class="border-t border-gray-200 mt-6 pt-6">
 
                         @if (session('success'))
                             <div class="alert alert-success">
-                               <p class="alert-text">{{ session('success') }}</p>
+                                <p class="alert-text">{{ session('success') }}</p>
                             </div>
                         @endif
-                            <!-- Topic list goes here -->
-                            @if ($topics->isEmpty())
+                        <!-- Topic list goes here -->
+                        @if ($topics->isEmpty())
                             <p>No topics found for this category.</p>
                         @else
-                        <div class="categories-list">
-                            <ul>
-                                @foreach ($topics as $topic)
-                                    <a href="/categories/{{ $name }}/topics/{{ $topic->id }}">
-                                        <li class="category-item"><strong>{{ $topic->title }} </strong><!-- Display total number of posts plus the topic to a count --> <span style="float:right;">{{ $topic->posts->count() }}<i class="fa fa-comments" aria-hidden="true" style="margin-left:1rem;"></i></span></li>
-                                    </a>
-                                @endforeach
-                            </ul>
-                        </div>
+                            <div class="categories-list">
+                                <ul>
+                                    @foreach ($topics as $topic)
+                                        <a href="/categories/{{ $name }}/topics/{{ $topic->id }}">
+                                            <li class="category-item"><strong>{{ $topic->title }}
+                                                </strong><!-- Display total number of posts plus the topic to a count -->
+                                                <span style="float:right;">{{ $topic->posts->count() }}<i
+                                                        class="fa fa-comments" aria-hidden="true"
+                                                        style="margin-left:1rem;"></i></span></li>
+                                        </a>
+                                    @endforeach
+                                </ul>
+                            </div>
                             {{ $topics->links() }} <!-- Pagination links -->
                         @endif
                     </div>

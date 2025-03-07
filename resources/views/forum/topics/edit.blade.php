@@ -13,7 +13,7 @@
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-lg font-semibold">{{ __("Edit your topic") }}</h3>
+                            <h3 class="text-lg font-semibold">{{ __('Edit your topic') }}</h3>
                         </div>
                     </div>
                     {{-- Display errors above the form --}}
@@ -38,18 +38,23 @@
                         @method('PATCH')
                         <div class="mb-4">
                             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" name="title" id="title" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" value="{{ $topic->title }}">
+                            <input type="text" name="title" id="title"
+                                class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                value="{{ $topic->title }}">
                         </div>
                         <div class="mb-4">
                             <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                            <textarea name="content" id="content" class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" rows="3">{{ $topic->content }}</textarea>
+                            <textarea name="content" id="content"
+                                class="form-textarea mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                rows="3">{{ $topic->content }}</textarea>
                         </div>
                         <div class="flex items-center justify-end">
                             <button type="submit" class="btn btn-primary">
-                                {{ __("Edit") }}
+                                {{ __('Edit') }}
                             </button>
-                            <a href="{{ route('topic.single', ['categoryName' => strtolower($category->name), 'id' => $topic->id]) }}" class="btn btn-secondary ml-4">
-                                {{ __("Cancel") }}
+                            <a href="{{ route('topic.single', ['categoryName' => strtolower($category->name), 'id' => $topic->id]) }}"
+                                class="btn btn-secondary ml-4">
+                                {{ __('Cancel') }}
                             </a>
                         </div>
                     </form>

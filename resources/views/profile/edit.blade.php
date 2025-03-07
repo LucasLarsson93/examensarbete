@@ -4,9 +4,9 @@
             {{ __('Profile') }}
         </h2>
     </x-slot>
-<?php
-$guestUserId = env('GUEST_USER_ID', 1);
-?>
+    <?php
+    $guestUserId = env('GUEST_USER_ID', 1);
+    ?>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -16,8 +16,8 @@ $guestUserId = env('GUEST_USER_ID', 1);
                         echo "You cannot update this user's profile information.";
                     } else {
                         ?>
-                        @include('profile.partials.update-profile-information-form')
-                        <?php
+                    @include('profile.partials.update-profile-information-form')
+                    <?php
                     }
                     ?>
                 </div>
@@ -31,8 +31,8 @@ $guestUserId = env('GUEST_USER_ID', 1);
                         echo "You cannot update this user's password.";
                     } else {
                         ?>
-                        @include('profile.partials.update-password-form')
-                        <?php
+                    @include('profile.partials.update-password-form')
+                    <?php
                     }
                     ?>
                 </div>
@@ -45,8 +45,8 @@ $guestUserId = env('GUEST_USER_ID', 1);
                         echo "You cannot delete this user.";
                     } else {
                         ?>
-                        @include('profile.partials.delete-user-form')
-                        <?php
+                    @include('profile.partials.delete-user-form')
+                    <?php
                     }
                     ?>
                 </div>
