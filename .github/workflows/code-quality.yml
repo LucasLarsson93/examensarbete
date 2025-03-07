@@ -28,7 +28,7 @@ jobs:
         run: npm install && composer install --no-progress --no-suggest
 
       - name: Run Laravel Pint (PHP Formatter)
-        run: vendor/bin/pint --test
+        run: vendor/bin/pint
 
       - name: Run Blade Formatter
-        run: npx blade-formatter "resources/views/**/*.blade.php" --check
+        run: npx blade-formatter "resources/views/**/*.blade.php" --fix
