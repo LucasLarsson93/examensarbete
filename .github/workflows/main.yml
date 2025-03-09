@@ -48,12 +48,11 @@ jobs:
           # Restart Laravel and Vite using PM2
           pm2 restart laravel
           pm2 restart vite
-          php artisan route:clear
 
           # Build the assets with npm
           npm run build
 
           git stash pop || echo "No stashed changes to apply"
           echo "Deployment completed successfully!"
-
+        
           EOF
