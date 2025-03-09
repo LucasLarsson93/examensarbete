@@ -4,7 +4,9 @@
             <a href="/dashboard">{{ __('Dashboard') }}</a>/<a href="/categories/{{ $category->slug }}">{{ $category->name }}</a>/{{ $topic->title }}
         </h2>
     </x-slot>
-    
+    <?php
+    $guestUserId = env('GUEST_USER_ID', 118);
+    ?>
     {{-- Vite to include my scss. --}}
     @vite(['resources/scss/app.scss'])
     
@@ -52,9 +54,17 @@
                                 <textarea name="post_content" id="post_content" rows="3"></textarea>
                             </div>
                             <div class="flex items-center justify-end">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __("Reply") }}
-                                </button>
+                                <?php
+                                if(Auth::user()->id == $guestUserId) {
+                                    echo "You are logged in as Guest and cannot reply to this topic.";
+                                } else {
+                                    ?>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Reply') }}
+                                    </button>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </form>
                     </div>
