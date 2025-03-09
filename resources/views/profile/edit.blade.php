@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <?php
-    $guestUserId = env('GUEST_USER_ID', 1);
+    $guestUserId = env('GUEST_USER_ID', 118);
     ?>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -13,7 +13,7 @@
                 <div class="max-w-xl">
                     <?php
                     if(Auth::user()->id == $guestUserId) {
-                        echo "You cannot update this user's profile information.";
+                        echo "You are logged in as Guest and cannot update this user's profile information."; 
                     } else {
                         ?>
                     @include('profile.partials.update-profile-information-form')
