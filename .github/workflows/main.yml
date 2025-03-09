@@ -54,5 +54,5 @@ jobs:
 
           git stash pop || echo "No stashed changes to apply"
           echo "Deployment completed successfully!"
-
+        
           EOF
