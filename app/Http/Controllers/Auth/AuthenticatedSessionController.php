@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
     {
         // Check if signing in as a guest
         if ($request->has('guest')) {
-            $guestUserId = env('GUEST_USER_ID', 1);
+            $guestUserId = env('GUEST_USER_ID', 125);
             Log::info(env('GIT_USERNAME'));
             Log::info("Guest login detected, attempting to log in user ID {$guestUserId}");
             Auth::loginUsingId($guestUserId);

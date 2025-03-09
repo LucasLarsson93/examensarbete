@@ -22,6 +22,10 @@
                         $usernames[] = '<span class="' . $backgroundColor . ' text-white font-bold px-2 py-1 rounded">' . $user->name . '</span>';
                     }
                     echo implode(', ', $usernames);
+                    //No online
+                    if (empty($usernames)) {
+                        echo 'No users online.';
+                    }
                     ?>
                 </span>
             </span>

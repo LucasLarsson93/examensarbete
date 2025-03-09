@@ -48,15 +48,11 @@ jobs:
           # Restart Laravel and Vite using PM2
           pm2 restart laravel
           pm2 restart vite
-          php artisan route:clear
 
           # Build the assets with npm
           npm run build
 
           git stash pop || echo "No stashed changes to apply"
           echo "Deployment completed successfully!"
-
-          # Set up cron job for Laravel schedule
-          (crontab -l ; echo "* * * * * php artisan schedule:run >> /dev/null 2>&1") | crontab -
-          echo "Cron job for schedule:run added to crontab."
+        
           EOF
