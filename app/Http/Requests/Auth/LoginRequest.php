@@ -33,14 +33,6 @@ class LoginRequest extends FormRequest
         ];
     }    
 
-    public function guest(): RedirectResponse
-    {
-        // Log in user with ID 25 (guest user)
-        Auth::loginUsingId(25);
-
-        return redirect()->route('dashboard', [], false);
-    }
-
     /**
      * Attempt to authenticate the request's credentials.
      *
