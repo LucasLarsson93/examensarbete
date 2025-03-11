@@ -23,13 +23,49 @@ jobs:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           sshpass -p "$PASSWORD" ssh -o StrictHostKeyChecking=no $USER@$SERVER << EOF
-          echo "Navigating to /var/www/html/$REPO_NAME"
+          cd /var/www/html/$REPO_NAME || exit
 
-          # Pull the latest changes from the master branch
+          # Check if this is a Git repository
+          if [ ! -d ".git" ]; then
+            echo "Error: No .git directory found. Ensure this is a git repository."
+            exit 1
+          fi
+
+          # Pull latest changes
           git stash
           git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/LucasLarsson93/examensarbete.git master
           echo "Pulled the latest changes from the master branch."
-          
+
+          # Check if artisan exists
+          if [ ! -f "artisan" ]; then
+            echo "Error: artisan file not found! Are you in the correct Laravel directory?"
+            exit 1
+          fi
+
+          # Fix permissions
+          chown -R $USER:$USER /var/www/html/$REPO_NAME
+          chmod -R 775 /var/www/html/$REPO_NAME/storage
+          chmod -R 775 /var/www/html/$REPO_NAME/bootstrap/cache
+
+          # Load nvm (if using Node.js)
+          export NVM_DIR="\$HOME/.nvm"
+          [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
+          [ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"
+
+          # Ensure npm and pm2 exist
+          if ! command -v npm &> /dev/null; then
+            echo "Error: npm is not installed or not in PATH"
+            exit 1
+          fi
+
+          if ! command -v pm2 &> /dev/null; then
+            echo "Error: pm2 is not installed or not in PATH"
+            exit 1
+          fi
+
+          # Run Composer dump-autoload to regenerate the autoload files
+          composer dump-autoload
+
           # Run Laravel optimizations
           php artisan down --render="errors::503" --retry=60 || true
           php artisan cache:clear || echo "Failed to clear cache"
@@ -42,15 +78,14 @@ jobs:
           php artisan migrate --force || echo "Migrations failed"
           php artisan up || echo "Failed to bring Laravel back up"
 
-
           # Restart Laravel and Vite using PM2
-          pm2 restart laravel
-          pm2 restart vite
+          pm2 restart laravel || pm2 start laravel
+          pm2 restart vite || pm2 start vite
 
           # Build the assets with npm
-          npm run build
+          npm install
+          npm run build || echo "Failed to build assets"
 
           git stash pop || echo "No stashed changes to apply"
           echo "Deployment completed successfully!"
-        
           EOF
