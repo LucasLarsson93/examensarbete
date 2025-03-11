@@ -55,6 +55,9 @@
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     {{ __('ip address') }}
                                 </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    {{ __('Last activity') }}
+                                </th>
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                     {{ __('Actions') }}
@@ -74,8 +77,11 @@
                                         <p class="text-gray-900 whitespace-no-wrap">
                                             {{ $user->is_admin ? __('Admin') : __('User') }}</p>
                                     </td>
-                                    <td>
-                                        ..
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        {{ $user->ip_address }}
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        {{ $user->last_activity }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div class="flex space-x-4">
