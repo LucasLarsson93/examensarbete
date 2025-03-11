@@ -27,33 +27,51 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        Log::info('Login Request:', $request->all());
+        Log::info('Login Request Received', $request->all());
+    
         // Check if signing in as a guest
         if ($request->has('guest')) {
             $guestUserId = env('GUEST_USER_ID', 125);
-            Log::info(env('GIT_USERNAME'));
-            Log::info("Guest login detected, attempting to log in user ID {$guestUserId}");
-            Auth::loginUsingId($guestUserId);
+            Log::info("Guest login detected, attempting to log in user ID: {$guestUserId}");
     
-            // Mark guest user as online
-            $guestUser = Auth::user();
-            if ($guestUser) {
-                $guestUser->is_online = true;
-                $guestUser->update();
+            // Attempt login
+            if (Auth::loginUsingId($guestUserId)) {
+                Log::info("Guest login successful for user ID: {$guestUserId}");
+    
+                // Mark guest user as online
+                $guestUser = Auth::user();
+                if ($guestUser) {
+                    Log::info("Guest user found: {$guestUser->id}");
+                    $guestUser->is_online = true;
+                    $guestUser->update();
+                    Log::info("Guest user marked as online.");
+                } else {
+                    Log::error("Auth::user() returned null after guest login.");
+                }
+    
+                return redirect()->route('dashboard');
+            } else {
+                Log::error("Guest login failed for user ID: {$guestUserId}");
             }
-    
-            return redirect()->route('dashboard');
         }
     
         // Standard authentication
+        Log::info("Attempting standard login.");
         $request->authenticate();
+        Log::info("Standard login successful.");
+    
         $request->session()->regenerate();
+        Log::info("Session regenerated.");
     
         // Mark authenticated user as online
         $user = Auth::user();
         if ($user) {
+            Log::info("Authenticated user found: {$user->id}");
             $user->is_online = true;
             $user->update();
+            Log::info("Authenticated user marked as online.");
+        } else {
+            Log::error("Auth::user() returned null after standard login.");
         }
     
         return redirect()->intended(route('dashboard'));
