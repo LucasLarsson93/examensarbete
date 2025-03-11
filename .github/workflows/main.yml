@@ -35,15 +35,16 @@ jobs:
           
           # Run Laravel optimizations
           php artisan down --render="errors::503" --retry=60 || true
-          php artisan cache:clear
-          php artisan config:clear
-          php artisan route:clear
-          php artisan view:clear
-          php artisan route:cache
-          php artisan config:cache
-          php artisan view:cache
-          php artisan migrate --force  # Run database migrations safely
-          php artisan up  # Bring the app back online
+          php artisan cache:clear || echo "Failed to clear cache"
+          php artisan config:clear || echo "Failed to clear config"
+          php artisan route:clear || echo "Failed to clear routes"
+          php artisan view:clear || echo "Failed to clear views"
+          php artisan route:cache || echo "Failed to cache routes"
+          php artisan config:cache || echo "Failed to cache config"
+          php artisan view:cache || echo "Failed to cache views"
+          php artisan migrate --force || echo "Migrations failed"
+          php artisan up || echo "Failed to bring Laravel back up"
+
 
           # Restart Laravel and Vite using PM2
           pm2 restart laravel
