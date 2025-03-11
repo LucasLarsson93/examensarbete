@@ -30,9 +30,6 @@ jobs:
           git pull https://$GIT_USERNAME:$GIT_TOKEN@github.com/LucasLarsson93/examensarbete.git master
           echo "Pulled the latest changes from the master branch."
           
-          # Run Composer dump-autoload to regenerate the autoload files
-          composer dump-autoload
-          
           # Run Laravel optimizations
           php artisan down --render="errors::503" --retry=60 || true
           php artisan cache:clear || echo "Failed to clear cache"
