@@ -64,6 +64,12 @@
                                 <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary ml-4">
                                     {{ __('Cancel') }}
                                 </a>
+                                <a href="{{ route('users.delete', ['id' => $user->id]) }}" class="btn btn-danger ml-4">
+                                    {{ __('Delete') }}
+                                </a>
+                                <a href="#" class="btn btn-danger ml-4">
+                                    Set offline
+                                </a>
                             </div>
                     </form>
                     {{-- Danger download a user's logs --}}

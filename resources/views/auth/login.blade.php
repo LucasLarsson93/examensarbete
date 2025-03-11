@@ -53,21 +53,22 @@
         </div>
     </form>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const guestCheckbox = document.getElementById("guest");
-            const passwordField = document.getElementById("password");
-            const emailField = document.getElementById("email");
+document.addEventListener("DOMContentLoaded", function() {
+    const guestCheckbox = document.getElementById("guest");
+    const passwordField = document.getElementById("password");
+    const emailField = document.getElementById("email");
 
-            guestCheckbox.addEventListener("change", function() {
-                if (this.checked) {
-                    emailField.removeAttribute("required");
-                    passwordField.removeAttribute("required");
-                    passwordField.value = "";
-                } else {
-                    emailField.setAttribute("required", "required");
-                    passwordField.setAttribute("required", "required");
-                }
-            });
-        });
+    guestCheckbox.addEventListener("change", function() {
+        if (this.checked) {
+            emailField.removeAttribute("required");
+            passwordField.removeAttribute("required");
+            emailField.value = "";
+            passwordField.value = "";
+        } else {
+            emailField.setAttribute("required", "required");
+            passwordField.setAttribute("required", "required");
+        }
+    });
+});
     </script>
 </x-guest-layout>

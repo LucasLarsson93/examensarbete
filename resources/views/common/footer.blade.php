@@ -12,23 +12,27 @@
             Newest member: <span id="latest-user"></span>
             {{-- Display online users. --}}
             <span class="ml-6">
-                Online: <span id="logged-in-users">
-                    <?php
-                    $users = DB::table('users')->where('is_online', 1)->get();
-                    $usernames = [];
+                Online:
+                    <span id="logged-in-users">Loading...</span>
+                        <script>
+                            function updateOnlineUsers() {
+                                fetch('/online-users')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const loggedInUsersElement = document.getElementById('logged-in-users');
+                                        if (data.no_users) {
+                                            loggedInUsersElement.innerHTML = 'No users online.';
+                                        } else {
+                                            loggedInUsersElement.innerHTML = data.users.join(', ');
+                                        }
+                                    })
+                                    .catch(error => console.error('Error fetching online users:', error));
+                            }
 
-                    foreach ($users as $user) {
-                        $backgroundColor = $user->is_admin ? 'bg-red-600' : 'bg-gray-600';
-                        $usernames[] = '<span class="' . $backgroundColor . ' text-white font-bold px-2 py-1 rounded">' . $user->name . '</span>';
-                    }
-                    echo implode(', ', $usernames);
-                    //No online
-                    if (empty($usernames)) {
-                        echo 'No users online.';
-                    }
-                    ?>
+                            setInterval(updateOnlineUsers, 30000);
+                            updateOnlineUsers();
+                        </script>
                 </span>
-            </span>
         </div>
         <!-- //style this button -->
         <a href="#top" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-md text-xs">Top</a>

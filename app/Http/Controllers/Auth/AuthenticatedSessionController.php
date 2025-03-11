@@ -27,6 +27,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        Log::info('Login Request:', $request->all());
         // Check if signing in as a guest
         if ($request->has('guest')) {
             $guestUserId = env('GUEST_USER_ID', 125);

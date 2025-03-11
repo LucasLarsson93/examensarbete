@@ -9,6 +9,7 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\UpdateLastActivity;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/favicon.ico', function () {
     return response()->file(public_path('favicon.ico'));
@@ -26,7 +27,19 @@ Route::get('/dashboard', function () {
     return view('forum.dashboard.index', compact('categories'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Public forum routes.
+Route::get('/online-users', function () {
+    $users = DB::table('users')->where('is_online', 1)->get();
+    $usernames = [];
+
+    foreach ($users as $user) {
+        $backgroundColor = $user->is_admin ? 'bg-red-600' : 'bg-gray-600';
+        $usernames[] = '<span class="' . $backgroundColor . ' text-white font-bold px-2 py-1 rounded">' . $user->name . '</span>';
+    }
+
+    return response()->json(['users' => $usernames, 'no_users' => empty($usernames)]);
+});
+
+// Public routes.
 Route::get('/categories/announcement', [CategoryController::class, 'index'])->name('categories.index');
 //Route for privacy policy
 Route::get('/privacy-policy', function () {
